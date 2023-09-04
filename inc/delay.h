@@ -1,4 +1,4 @@
-#include "uart0.h"
+#include "uart1.h"
 
 unsigned int uart_isReadByteReady();
 unsigned char getUart();

@@ -14,6 +14,7 @@
 #define AUX_MU_STAT     (* (volatile unsigned int*)(MMIO_BASE+0x00215064))
 #define AUX_MU_BAUD     (* (volatile unsigned int*)(MMIO_BASE+0x00215068))
 
+
 /* Function prototypes */
 void uart_init();
 void uart_sendc(char c);

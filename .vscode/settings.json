@@ -3,7 +3,9 @@
         "uart0.h": "c",
         "kernel.h": "c",
         "gpio.h": "c",
-        "mbox.h": "c"
+        "mbox.h": "c",
+        "printf.h": "c",
+        "framebf.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
