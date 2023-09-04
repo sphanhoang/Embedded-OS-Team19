@@ -4,7 +4,7 @@
 //Check if the user has just inputted a new key
 unsigned int uart_isReadByteReady()
 {
-	return (*AUX_MU_LSR & 0x01);
+	return (AUX_MU_LSR & 0x01);
 }
 
 

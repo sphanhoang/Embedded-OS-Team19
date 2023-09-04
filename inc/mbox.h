@@ -57,15 +57,6 @@ extern volatile unsigned int mbox[36];
 #define MBOX_TAG_GETFB 0x40001
 #define MBOX_TAG_GETPITCH 0x40008
 
-//New tags for screen
-#define MBOX_TAG_SETPHYWH       0x00048003
-#define MBOX_TAG_SETVIRTWH      0x00048004
-#define MBOX_TAG_SETVIRTOFF     0x00048009
-#define MBOX_TAG_SETDEPTH       0x00048005
-#define MBOX_TAG_SETPXLORDR     0x00048006
-#define MBOX_TAG_GETFB          0x00040001
-#define MBOX_TAG_GETPITCH       0x00040008
-
  
 /* Function Prototypes */ 
 int mbox_call(unsigned int buffer_addr, unsigned char channel); 

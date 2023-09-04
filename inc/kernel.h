@@ -1,4 +1,4 @@
-#include "../inc/uart0.h"
+#include "../inc/uart1.h"
 #include "../inc/mbox.h"
 #include "../inc/printf.h"
 #include "../inc/delay.h"

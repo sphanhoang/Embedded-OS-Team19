@@ -1,6 +1,6 @@
 // ----------------------------------- framebf.c -------------------------------------
 #include "../inc/mbox.h"
-#include "../uart/uart0.h"
+#include "../inc/uart1.h"
 
 //Use RGBA32 (32 bits for each pixel)
 #define COLOR_DEPTH 32
