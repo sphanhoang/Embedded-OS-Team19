@@ -4,6 +4,8 @@
 */
 
 #include "../inc/kernel.h"
+#include "Delay and Uart functions.c"
+
 
 
 //========================MAIN============================//

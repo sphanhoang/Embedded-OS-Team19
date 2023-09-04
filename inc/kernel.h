@@ -1,7 +1,8 @@
 #include "../inc/uart0.h"
 #include "../inc/mbox.h"
 #include "../inc/printf.h"
-
+#include "../inc/delay.h"
+#include "../inc/framebf.h"
 
 #define MAX_CMD_SIZE 100
 #define HISTORY_SIZE 10

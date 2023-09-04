@@ -1,14 +1,17 @@
+#include "../inc/delay.h"
 
 
 //Check if the user has just inputted a new key
-unsigned int uart_isReadByteReady(){
+unsigned int uart_isReadByteReady()
+{
 	return (*AUX_MU_LSR & 0x01);
 }
 
 
 
 /* New function: Check and return if no new character, don't wait */
-unsigned char getUart(){
+unsigned char getUart()
+{
     unsigned char ch = 0;
     if (uart_isReadByteReady())
     	ch = uart_getc();
@@ -42,7 +45,8 @@ void wait_msec(unsigned int n)
 
 
 /* Function to start a timer (set = 1) or wait for it to expire (set = 0) */
-void set_wait_timer(int set, unsigned int msVal) {
+void set_wait_timer(int set, unsigned int msVal) 
+{
     static unsigned long expiredTime = 0; //declare static to keep value
     register unsigned long r, f, t;
     
