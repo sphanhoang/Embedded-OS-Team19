@@ -16,3 +16,4 @@ void clear ();
 void help(char *cli_buffer);
 void set_color(char *cli_buffer);
 void showinfo();
+void draw();

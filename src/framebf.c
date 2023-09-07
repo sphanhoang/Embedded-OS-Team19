@@ -1,6 +1,5 @@
 // ----------------------------------- framebf.c -------------------------------------
-#include "../inc/mbox.h"
-#include "../inc/uart1.h"
+#include "../inc/framebf.h"
 
 //Use RGBA32 (32 bits for each pixel)
 #define COLOR_DEPTH 32
@@ -97,11 +96,12 @@ void drawPixelARGB32(int x, int y, unsigned int attr)
 void drawRectARGB32(int x1, int y1, int x2, int y2, unsigned int attr, int fill)
 {
     for (int y = y1; y <= y2; y++ )
-    for (int x = x1; x <= x2; x++) 
     {
-        if ((x == x1 || x == x2) || (y == y1 || y == y2))
-            drawPixelARGB32(x, y, attr);
-        else if (fill)
-            drawPixelARGB32(x, y, attr);
-    }   
-}
+        for (int x = x1; x <= x2; x++) 
+        {
+            if ((x == x1 || x == x2) || (y == y1 || y == y2))
+                drawPixelARGB32(x, y, attr);
+            else if (fill)
+                drawPixelARGB32(x, y, attr);
+        }   
+    }
