@@ -105,3 +105,4 @@ void drawRectARGB32(int x1, int y1, int x2, int y2, unsigned int attr, int fill)
                 drawPixelARGB32(x, y, attr);
         }   
     }
+}
