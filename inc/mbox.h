@@ -1,6 +1,6 @@
 // -----------------------------------mbox.h ------------------------------------- 
-#include "../inc/gpio.h" 
-#include "../inc/uart1.h" 
+#include "gpio.h" 
+#include "uart1.h" 
  
 /* a properly aligned buffer */ 
 extern volatile unsigned int mbox[36]; 

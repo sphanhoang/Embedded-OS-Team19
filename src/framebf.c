@@ -17,39 +17,48 @@ void framebf_init()
 {
     mbox[0] = 35*4; // Length of message in bytes
     mbox[1] = MBOX_REQUEST;
+
     mbox[2] = MBOX_TAG_SETPHYWH; //Set physical width-height
     mbox[3] = 8; // Value size in bytes
     mbox[4] = 0; // REQUEST CODE = 0
     mbox[5] = 1024; // Value(width)
     mbox[6] = 768; // Value(height)
+
     mbox[7] = MBOX_TAG_SETVIRTWH; //Set virtual width-height
     mbox[8] = 8;
     mbox[9] = 0;
     mbox[10] = 1024;
     mbox[11] = 768;
+
     mbox[12] = MBOX_TAG_SETVIRTOFF; //Set virtual offset
     mbox[13] = 8;
     mbox[14] = 0;
     mbox[15] = 0; // x offset
     mbox[16] = 0; // y offset
+
     mbox[17] = MBOX_TAG_SETDEPTH; //Set color depth
     mbox[18] = 4;
     mbox[19] = 0;
     mbox[20] = COLOR_DEPTH; //Bits per pixel
+
     mbox[21] = MBOX_TAG_SETPXLORDR; //Set pixel order
     mbox[22] = 4;
     mbox[23] = 0;
     mbox[24] = PIXEL_ORDER;
+
     mbox[25] = MBOX_TAG_GETFB; //Get frame buffer
     mbox[26] = 8;
     mbox[27] = 0;
-    mbox[28] = 16; //alignment in 16 bytes
+    mbox[28] = 16; //first frame buffer address. alignment in 16 bytes
     mbox[29] = 0; //will return Frame Buffer size in bytes
+
     mbox[30] = MBOX_TAG_GETPITCH; //Get pitch
     mbox[31] = 4;
     mbox[32] = 0;
     mbox[33] = 0; //Will get pitch value here
+
     mbox[34] = MBOX_TAG_LAST;
+
     // Call Mailbox
     if (mbox_call(ADDR(mbox), MBOX_CH_PROP) //mailbox call is successful ?
     && mbox[20] == COLOR_DEPTH //got correct color depth ?
@@ -75,6 +84,7 @@ void framebf_init()
         width = mbox[5]; // Actual physical width
         height = mbox[6]; // Actual physical height
         pitch = mbox[33]; // Number of bytes per line
+        fb = (uint8_t *)(long)mbox[28];
     } 
     else 
     {
@@ -100,9 +110,46 @@ void drawRectARGB32(int x1, int y1, int x2, int y2, unsigned int attr, int fill)
         for (int x = x1; x <= x2; x++) 
         {
             if ((x == x1 || x == x2) || (y == y1 || y == y2))
+            {
                 drawPixelARGB32(x, y, attr);
+            }
+                
             else if (fill)
+            {
                 drawPixelARGB32(x, y, attr);
+            }
+                
         }   
     }
 }
+
+void drawChar(unsigned char ch, int x, int y, unsigned char attr)
+{
+    unsigned char *glyph = (unsigned char *)&font + (ch < FONT_NUMGLYPHS ? ch : 0) * FONT_BPG;
+
+    for (int i=0;i<FONT_HEIGHT;i++) {
+	for (int j=0;j<FONT_WIDTH;j++) {
+	    unsigned char mask = 1 << j;
+	    unsigned char col = (*glyph & mask) ? attr & 0x0f : (attr & 0xf0) >> 4;
+
+	    drawPixelARGB32(x+j, y+i, col);
+	}
+	glyph += FONT_BPL;
+    }
+}
+
+void drawString(int x, int y, char *s, unsigned char attr)
+{
+    while (*s) {
+       if (*s == '\r') {
+          x = 0;
+       } else if(*s == '\n') {
+          x = 0; y += FONT_HEIGHT;
+       } else {
+	  drawChar(*s, x, y, attr);
+          x += FONT_WIDTH;
+       }
+       s++;
+    }
+}
+
