@@ -1,10 +1,12 @@
 // ----------------------------------- framebf.c -------------------------------------
 #include "../inc/framebf.h"
+#include "../inc/fontLib.h"
+
 
 //Use RGBA32 (32 bits for each pixel)
 #define COLOR_DEPTH 32
 //Pixel Order: BGR in memory order (little endian --> RGB in byte order)
-#define PIXEL_ORDER 0
+#define PIXEL_ORDER 1
 //Screen info
 unsigned int width, height, pitch;
 /* Frame buffer address
@@ -101,7 +103,8 @@ void drawPixelARGB32(int x, int y, unsigned int attr)
     *(fb + offs + 3) = (attr >> 24) & 0xFF; //ALPHA
     */
     //Access 32-bit together
-    *((unsigned int*)(fb + offs)) = attr;
+    *((unsigned int*)(fb + offs)) = vgapal[attr & 0x0f];
+    // *((unsigned int*)(fb + offs)) = attr;
 }
 void drawRectARGB32(int x1, int y1, int x2, int y2, unsigned int attr, int fill)
 {
@@ -123,6 +126,10 @@ void drawRectARGB32(int x1, int y1, int x2, int y2, unsigned int attr, int fill)
     }
 }
 
+
+/**
+ * Draw characters with defined font.
+*/
 void drawChar(unsigned char ch, int x, int y, unsigned char attr)
 {
     unsigned char *glyph = (unsigned char *)&font + (ch < FONT_NUMGLYPHS ? ch : 0) * FONT_BPG;
@@ -138,6 +145,9 @@ void drawChar(unsigned char ch, int x, int y, unsigned char attr)
     }
 }
 
+/**
+ * Writes string of characters on to the screen
+*/
 void drawString(int x, int y, char *s, unsigned char attr)
 {
     while (*s) {

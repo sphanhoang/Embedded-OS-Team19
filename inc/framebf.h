@@ -1,6 +1,5 @@
 // ----------------------------------- framebf.h -------------------------------------
 #include "mbox.h"
-#include "font.h"
 
 void framebf_init();
 void drawPixelARGB32(int x, int y, unsigned int attr);
