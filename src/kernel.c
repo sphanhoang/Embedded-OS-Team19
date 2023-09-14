@@ -212,7 +212,8 @@ void check_command(char *cli_buffer)
 		{"clear", clear},
 		{"setcolor", set_color},
 		{"showinfo", showinfo},
-		{"draw", draw}
+		{"draw", draw},
+		{"write", write}
 	};
 
 	static char user_command[20];
@@ -454,4 +455,13 @@ void draw()
 
 	drawChar('O',500,500,0x05);
     drawString(100,100,"Hello world!",0x0f);
+}
+
+void write()
+{
+	framebf_init();
+	drawString(400,200, "Phan Hoang Son", 0x0f);
+	drawString(400,250, "Nguyen Minh Khoi", 0x0a);
+	drawString(400,300, "Nghiem The Minh", 0x0d);
+	drawString(400,350, "Minh Quang", 0x03);
 }
