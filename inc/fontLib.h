@@ -1,24 +1,24 @@
 /*
     Credit: rpi4-osdev
 */
-
+// BGR 16-color pallate
 unsigned int vgapal[] = {  
-    0x000000,
-    0x0000AA,
-    0x00AA00,
-    0x00AAAA,
-    0xAA0000,
-    0xAA00AA,
-    0xAA5500,
-    0xAAAAAA,
-    0x555555,
-    0x5555FF,
-    0x55FF55,
-    0x55FFFF,
-    0xFF5555,
-    0xFF55FF,
-    0xFFFF55,
-    0xFFFFFF 
+    0x000000,   // Black    - 0
+    0x0000AA,   // Maroon   - 1
+    0x00AA00,   // Green    - 2
+    0x00AAAA,   // Olive    - 3
+    0xAA0000,   // Navy     - 4
+    0xAA00AA,   // Purple   - 5
+    0xAA5500,   // Teal     - 6
+    0xAAAAAA,   // Silver   - 7
+    0x555555,   // Gray     - 8
+    0x5555FF,   // Red      - 9
+    0x55FF55,   // Lime     - A
+    0x55FFFF,   // Yellow   - B
+    0xFF5555,   // Blue     - C
+    0xFF55FF,   // Fuchsia  - D
+    0xFFFF55,   // Aqua     - E
+    0xFFFFFF    // White    - F
 };
 
 enum {
