@@ -116,6 +116,11 @@ void drawPixelARGB32(int x, int y, unsigned int attr)
     *((unsigned int*)(fb + offs)) = vgapal[attr & 0x0f];
     // *((unsigned int*)(fb + offs)) = attr;
 }
+
+/**
+ * Draw the rectangle
+ * @return none
+*/
 void drawRectARGB32(int x1, int y1, int x2, int y2, unsigned int attr, int fill)
 {
     for (int y = y1; y <= y2; y++ )
