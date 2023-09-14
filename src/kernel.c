@@ -226,7 +226,8 @@ void check_command(char *cli_buffer)
 		{"setcolor", set_color},
 		{"showinfo", showinfo},
 		{"draw", draw},
-		{"write", write}
+		{"write", write},
+		{"picture", picture}
 	};
 
 	static char user_command[20];
@@ -288,7 +289,8 @@ void help(char *cli_buffer)
 		{"setcolor", "Set text and background colors.", "setcolor -t <color> -b <color>\n> Available color: black, red, green, yellow, blue, purple, cyan, white."},
 		{"showinfo", "Show board information.", "showinfo"},
 		{"draw", "Draw rectangles.", "draw"},
-		{"write", "write the name of four members", "write"}
+		{"write", "write the name of four members", "write"},
+		{"picture", "show a picture", "picture"}
 	};
 
 	static char user_option[20];
@@ -503,6 +505,10 @@ void write()
 	drawString(400,350, "Minh Quang", 0x03);
 }
 
+void picture()
+{
+	showpicture();
+}
 /**
  * Fix compiler error "undefined reference to `memcpy'". 
  * Credit: stackoverflow

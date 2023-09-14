@@ -7,8 +7,6 @@ unsigned int uart_isReadByteReady()
 	return (AUX_MU_LSR & 0x01);
 }
 
-
-
 /* New function: Check and return if no new character, don't wait */
 unsigned char getUart()
 {
@@ -17,9 +15,6 @@ unsigned char getUart()
     	ch = uart_getc();
     return ch;
 }
-
-
-
 
 /* Function to wait for some msec: the program will stop there */
 void wait_msec(unsigned int n)
@@ -38,11 +33,6 @@ void wait_msec(unsigned int n)
     	asm volatile ("mrs %0, cntpct_el0" : "=r"(r));
     } while(r < expiredTime);
 }
-
-
-
-
-
 
 /* Function to start a timer (set = 1) or wait for it to expire (set = 0) */
 void set_wait_timer(int set, unsigned int msVal) 
