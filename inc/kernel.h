@@ -19,3 +19,4 @@ void set_color(char *cli_buffer);
 void showinfo();
 void draw();
 void write();
+void *memcpy(void *dest, const void *src, size_t n);

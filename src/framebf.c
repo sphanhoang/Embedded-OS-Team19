@@ -14,6 +14,8 @@ unsigned int width, height, pitch;
 unsigned char *fb;
 /**
 * Set screen resolution to 1024x768
+* @param none
+* @return none
 */
 void framebf_init()
 {
@@ -93,6 +95,14 @@ void framebf_init()
         uart_puts("Unable to get a frame buffer with provided setting\n");  
     }
 }
+
+/**
+ * Draw one pixel
+ * @param x
+ * @param y
+ * @param attr
+ * @return none
+*/
 void drawPixelARGB32(int x, int y, unsigned int attr)
 {
     int offs = (y * pitch) + (COLOR_DEPTH/8 * x);
@@ -120,8 +130,7 @@ void drawRectARGB32(int x1, int y1, int x2, int y2, unsigned int attr, int fill)
             else if (fill)
             {
                 drawPixelARGB32(x, y, attr);
-            }
-                
+            }  
         }   
     }
 }
@@ -129,6 +138,11 @@ void drawRectARGB32(int x1, int y1, int x2, int y2, unsigned int attr, int fill)
 
 /**
  * Draw characters with defined font.
+ * @param ch
+ * @param x
+ * @param y
+ * @param atr
+ * @return void
 */
 void drawChar(unsigned char ch, int x, int y, unsigned char attr)
 {
@@ -147,6 +161,11 @@ void drawChar(unsigned char ch, int x, int y, unsigned char attr)
 
 /**
  * Writes string of characters on to the screen
+ * @param x
+ * @param y
+ * @param s
+ * @param attr
+ * @return none
 */
 void drawString(int x, int y, char *s, unsigned char attr)
 {

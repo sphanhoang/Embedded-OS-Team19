@@ -36,4 +36,4 @@ clean:
 run1:
 	qemu-system-aarch64 -M raspi3 -kernel kernel8.img -serial null -serial stdio
 run0:
-	qemu-system-aarch64 -M raspi3 -kernel kernel8.img -serial stdio
+	qemu-system-aarch64 -M raspi4 -kernel kernel8.img -serial stdio

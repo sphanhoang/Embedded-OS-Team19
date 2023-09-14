@@ -65,7 +65,12 @@ void main()
 
 //===================Function defination==================//
 
-// compare if 2 string are the same or not
+/**
+ * Compare if 2 string are the same or not
+ * @param *s1
+ * @param *s2
+ * @return *s1 - *s2
+*/
 int my_strcmp(const char *s1, const char *s2) 
 {
     while (*s1 != '\0' && *s2 != '\0') 
@@ -79,7 +84,11 @@ int my_strcmp(const char *s1, const char *s2)
     return (*s1 - *s2);
 }
 
-// command line interpreter function
+/**
+ * command line interpreter (CLI) main function
+ * @param none
+ * @return none
+*/
 void cli()
 {
 	static char history[HISTORY_SIZE][MAX_CMD_SIZE];
@@ -192,7 +201,11 @@ void cli()
 	}
 }
 
-// Check for valid command
+/**
+ * Examine user input to see if it is a valid command
+ * @param cli_buffer
+ * @return none
+*/
 void check_command(char *cli_buffer)
 {
 	// define function pointer to point to a function
@@ -242,14 +255,22 @@ void check_command(char *cli_buffer)
 	uart_sendc('\n');
 }
 
-// clear CLI:
+/**
+ * clear the CLI
+ * @param none
+ * @return none
+*/
 void clear ()
 {
 	uart_puts("\033[2J\033[H"); // scroll and return pointer to home
 	uart_puts("\033[0m"); // reset text and text background 
 }
 
-// printing <help> command lines
+/**
+ * printing <help> command lines
+ * @param cli_buffer
+ * @return none
+*/
 void help(char *cli_buffer)
 {
 	// define help entry struct and help table:
@@ -265,9 +286,9 @@ void help(char *cli_buffer)
 		{"help", "Display information about commands.", "help <command>"},
 		{"clear", "Clear the terminal and reset color.", "clear"},
 		{"setcolor", "Set text and background colors.", "setcolor -t <color> -b <color>\n> Available color: black, red, green, yellow, blue, purple, cyan, white."},
-		{"showinfo", "Show board information.", "showinfo"}
-		// {"draw", "Draw rectangles.", "draw"}
-		// {"test", "test", "test"}
+		{"showinfo", "Show board information.", "showinfo"},
+		{"draw", "Draw rectangles.", "draw"},
+		{"write", "write the name of four members", "write"}
 	};
 
 	static char user_option[20];
@@ -314,7 +335,11 @@ void help(char *cli_buffer)
     }
 }
 
-// set color function
+/**
+ * Set color and background color for CLI text
+ * @param cli_buffer
+ * @return none
+ */
 void set_color(char *cli_buffer)
 {
 	char text[8];	// array to store text color input
@@ -401,6 +426,11 @@ void set_color(char *cli_buffer)
 	}
 }
 
+/**
+ * Show info of the board
+ * @param none
+ * @return none
+*/
 void showinfo()
 {
 	// get board MAC address
@@ -435,7 +465,11 @@ void showinfo()
 		printf("> Board Revision: %x\n", mbox[5]);
 	}
 }
-
+/**
+ * draw retangles
+ * @param none
+ * @return none
+*/
 void draw()
 {
 	// Initialize frame buffer
@@ -457,6 +491,11 @@ void draw()
     drawString(100,100,"Hello world!",0x0f);
 }
 
+/**
+ * Write down the name of this OS authors
+ * @param none
+ * @return none
+*/
 void write()
 {
 	framebf_init();
@@ -464,4 +503,20 @@ void write()
 	drawString(400,250, "Nguyen Minh Khoi", 0x0a);
 	drawString(400,300, "Nghiem The Minh", 0x0d);
 	drawString(400,350, "Minh Quang", 0x03);
+}
+
+/**
+ * Fix compiler error "undefined reference to `memcpy'". 
+ * Credit: stackoverflow
+ * @param *dest
+ * @param *src
+ * @param n
+ * @return none
+*/
+void *memcpy(void *dest, const void *src, size_t n)
+{
+    for (size_t i = 0; i < n; i++)
+    {
+        ((char*)dest)[i] = ((char*)src)[i];
+    }
 }
