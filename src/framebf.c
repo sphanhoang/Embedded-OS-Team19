@@ -457,9 +457,9 @@ void drawString(int x, int y, char *s, unsigned int attr)
 void showPicture()
 {   
     int pixel = 0;
-    for (int y = -30; y < 768; y++)
+    for (int y = -30; y < pic_height; y++)
     {
-        for (int x = 0; x < 640; x++)
+        for (int x = 0; x < pic_width; x++)
         {
             drawPixel(x,y,myBitmappic[pixel]);
             pixel++;

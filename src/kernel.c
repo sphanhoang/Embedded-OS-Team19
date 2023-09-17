@@ -504,7 +504,7 @@ void write()
 	drawString(400,200, "Phan Hoang Son", WHITE);
 	drawString(400,250, "Nguyen Minh Khoi", LIME);
 	drawString(400,300, "Nghiem The Minh", FUCHSIA);
-	drawString(400,350, "Minh Quang", OLIVE);
+	drawString(400,350, "Nguyen Ngoc Minh Quang", OLIVE);
 }
 
 void picture()
