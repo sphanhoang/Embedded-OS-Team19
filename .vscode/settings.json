@@ -7,7 +7,11 @@
         "printf.h": "c",
         "framebf.h": "c",
         "fontlib.h": "c",
-        "image.h": "c"
+        "image.h": "c",
+        "atomic": "c",
+        "*.tcc": "c",
+        "istream": "c",
+        "ostream": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

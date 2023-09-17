@@ -54,6 +54,8 @@ void main()
 	
 	printf("		Developed by <Phan Hoang Son>	-	<s3715412>\n");
 	printf("SaltOS>");
+	framebf_init();
+	printf("SaltOS>");
     // run CLI
     while(1) 
 	{
@@ -475,20 +477,20 @@ void showinfo()
 void draw()
 {
 	// Initialize frame buffer
-	framebf_init();
+
 	// Draw something on the screen
 	// drawRect(100,100,400,400,0x00AA0000,1); //RED
 	// drawRect(150,150,400,400,0x0000BB00,1); //GREEN
 	// drawRect(200,200,400,400,0x000000CC,1); //BLUE
 	// drawRect(250,250,400,400,0x00FFFF00,1); //YELLOW
 	// drawPixel(300, 300, 0x00FF0000); //RED
-
-	drawRect(100,100,400,400,0x09,1); //RED
-	drawRect(150,150,400,400,0x02,1); //GREEN
-	drawRect(200,200,400,400,0x0c,1); //BLUE
-	drawRect(250,250,400,400,0x0b,1); //YELLOW
-	drawPixel(300, 300, 0x09); //RED
-    drawString(100,100,"Hello world!",0x0f);
+	clearScreen();
+	drawRect(100,100,400,400,RED,1); //RED
+	drawRect(150,150,400,400,GREEN,1); //GREEN
+	drawRect(200,200,400,400,BLUE,1); //BLUE
+	drawRect(250,250,400,400,YELLOW,1); //YELLOW
+	drawPixel(300, 300, RED); //RED
+    drawString(100,100,"Hello world!",WHITE);
 }
 
 /**
@@ -498,16 +500,18 @@ void draw()
 */
 void write()
 {
-	framebf_init();
-	drawString(400,200, "Phan Hoang Son", 0x0f);
-	drawString(400,250, "Nguyen Minh Khoi", 0x0a);
-	drawString(400,300, "Nghiem The Minh", 0x0d);
-	drawString(400,350, "Minh Quang", 0x03);
+	clearScreen();
+	drawString(400,200, "Phan Hoang Son", WHITE);
+	drawString(400,250, "Nguyen Minh Khoi", LIME);
+	drawString(400,300, "Nghiem The Minh", FUCHSIA);
+	drawString(400,350, "Minh Quang", OLIVE);
 }
 
 void picture()
 {
-	showpicture();
+
+	clearScreen();
+	showPicture();
 }
 /**
  * Fix compiler error "undefined reference to `memcpy'". 
