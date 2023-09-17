@@ -10,29 +10,9 @@ unsigned int width, height, pitch, isrgb;
 unsigned char *fb;
 
 /**
- * VGAPAL and font array
- * Credit: rpi4-osdev 
+ *  Font: Code page 437
+ *  Credit: rpi4-osdev 
 */
-// BGR 16-color pallate
-// unsigned int vgapal[] = {  
-//     BLACK,      // 0
-//     MAROON,     // 1
-//     GREEN,      // 2
-//     OLIVE,      // 3
-//     NAVY,       // 4
-//     PURPLE,     // 5
-//     TEAL,       // 6
-//     SILVER,     // 7
-//     GRAY,       // 8
-//     RED,        // 9
-//     LIME,       // A
-//     YELLOW,     // B
-//     BLUE,       // C
-//     FUCHSIA,    // D
-//     AQUA,       // E
-//     WHITE       // F
-// };
-
 enum {
     FONT_WIDTH     = 8,
     FONT_HEIGHT    = 8,
@@ -415,7 +395,6 @@ void drawChar(unsigned char ch, int x, int y, unsigned int attr)
         for (int j=0;j<FONT_WIDTH;j++) 
         {
             unsigned char mask = 1 << j;
-            // unsigned char col = (*glyph & mask) ? attr & 0x0f : (attr & 0xf0) >> 4;
             unsigned int col = (*glyph & mask) ? attr : BLACK;
             drawPixel(x+j, y+i, col);
         }
@@ -467,6 +446,9 @@ void showPicture()
     }
 }
 
+/**
+ * Clear the screen
+*/
 void clearScreen()
 {
     for (int y = 0; y < height; y++)
