@@ -495,7 +495,6 @@ void draw()
 	drawRect(150,150,400,400,GREEN,1); //GREEN
 	drawRect(200,200,400,400,BLUE,1); //BLUE
 	drawRect(250,250,400,400,YELLOW,1); //YELLOW
-	drawPixel(300, 300, RED); //RED
     drawString(100,100,"Hello world!",WHITE);
 }
 
