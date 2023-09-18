@@ -1,5 +1,6 @@
 // ----------------------------------- framebf.h -------------------------------------
 #include "mbox.h"
+#include "printf.h"
 
 // ARGB in byte order (ABGR in memory order)
 #define BLACK   0x00000000 
@@ -32,5 +33,5 @@ void drawPixel(int x, int y, unsigned int attr);
 void drawRect(int x1, int y1, int x2, int y2, unsigned int attr, int fill);
 void drawChar(unsigned char ch, int x, int y, unsigned int attr);
 void drawString(int x, int y, char *s, unsigned int attr);
-void showPicture();
+void showPicture(int offset);
 void clearScreen();

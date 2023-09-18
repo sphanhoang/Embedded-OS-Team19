@@ -1,7 +1,7 @@
 // ----------------------------------- framebf.c -------------------------------------
 #include "../inc/framebf.h"
 #include "../inc/image.h"
-#include "../inc/printf.h"
+
 //Screen info
 unsigned int width, height, pitch, isrgb;
 
@@ -433,17 +433,18 @@ void drawString(int x, int y, char *s, unsigned int attr)
 /**
  * Show a picture
  */
-void showPicture()
+void showPicture(int offset)
 {   
-    int pixel = 0;
-    for (int y = -30; y < pic_height; y++)
-    {
-        for (int x = 0; x < pic_width; x++)
-        {
-            drawPixel(x,y,myBitmappic[pixel]);
-            pixel++;
-        }
-    }
+	int pixel = 0;
+	for (int y = offset; y < pic_height; y++)
+	{
+		for (int x = 0; x < pic_width; x++)
+		{
+			drawPixel(x,y,myBitmappic[pixel]);
+			drawPixel(x,(offset-1),BLACK);
+			pixel++;
+		}
+	}   
 }
 
 /**

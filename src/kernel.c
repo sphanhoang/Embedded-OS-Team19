@@ -252,7 +252,13 @@ void check_command(char *cli_buffer)
 		{
 			command_table[i].handler(cli_buffer);
             return; // Exit the loop if a command is found
-        } 	
+        } 
+		// else if (!my_strcmp(user_command, "picture"))
+		// {
+		// 	command_table[6].handler(c);
+		// 	return; // Exit the loop if a command is found
+		// }
+		
     }
 	uart_puts("Syntax error. Please type <help> to see valid commands");
 	uart_sendc('\n');
@@ -509,9 +515,32 @@ void write()
 
 void picture()
 {
-
+	int offset = 0;
+	
 	clearScreen();
-	showPicture();
+	showPicture(offset);
+	while (1)
+	{
+		char input = uart_getc();
+		if (input == 'w')
+		{
+			offset -= 10;
+			// clearScreen();
+			showPicture(offset);
+		}
+		else if (input == 's')
+		{
+			offset += 10;
+			// clearScreen();
+			showPicture(offset);
+		}
+		else if (input == 'c')
+		{
+			break;
+		}
+	}
+	
+
 }
 /**
  * Fix compiler error "undefined reference to `memcpy'". 

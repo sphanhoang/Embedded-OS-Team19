@@ -11,7 +11,8 @@
         "atomic": "c",
         "*.tcc": "c",
         "istream": "c",
-        "ostream": "c"
+        "ostream": "c",
+        "random": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
