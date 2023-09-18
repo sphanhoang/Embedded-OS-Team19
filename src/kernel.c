@@ -52,7 +52,7 @@ void main()
 	uart_puts("                                                                                                                                                                                                                          \n");
 	uart_puts("                                                                                                                                                                                                                          \n");
 	
-	printf("		Developed by <Phan Hoang Son>	-	<s3715412>\n");
+	printf("		Developed by <Group 19>\n");
 	printf("SaltOS>");
 	framebf_init();
 	printf("SaltOS>");
@@ -540,7 +540,6 @@ void picture()
 		}
 	}
 	
-
 }
 /**
  * Fix compiler error "undefined reference to `memcpy'". 
