@@ -516,7 +516,7 @@ void write()
 void picture()
 {
 	int offset = 0;
-	
+	printf("SaltOS> Press 'w' or 's' to scroll the image up and down. Press 'c' to exit.\n");
 	clearScreen();
 	showPicture(offset);
 	while (1)
