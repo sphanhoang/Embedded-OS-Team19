@@ -4,6 +4,10 @@
 */
 
 #include "../inc/kernel.h"
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 
 
 
@@ -273,6 +277,7 @@ void clear ()
 {
 	uart_puts("\033[2J\033[H"); // scroll and return pointer to home
 	uart_puts("\033[0m"); // reset text and text background 
+	clearScreen();  
 }
 
 /**
@@ -513,34 +518,37 @@ void write()
 	drawString(400,350, "Nguyen Ngoc Minh Quang", OLIVE);
 }
 
+/**
+ * Draw picture
+*/
 void picture()
 {
 	int offset = 0;
+	extern int pic_width;
 	printf("SaltOS> Press 'w' or 's' to scroll the image up and down. Press 'c' to exit.\n");
 	clearScreen();
 	showPicture(offset);
-	while (1)
+	while (uart_getc() != 'c')
 	{
-		char input = uart_getc();
-		if (input == 'w')
+		// char input = uart_getc();
+		if (uart_getc() == 'w')
 		{
 			offset -= 10;
 			// clearScreen();
 			showPicture(offset);
+			drawRect(0, offset-10, pic_width, offset-1, BLACK, 1);
 		}
-		else if (input == 's')
+		else if (uart_getc() == 's')
 		{
 			offset += 10;
 			// clearScreen();
 			showPicture(offset);
-		}
-		else if (input == 'c')
-		{
-			break;
+			drawRect(0, offset-10, pic_width, offset-1, BLACK, 1);
 		}
 	}
 	
 }
+
 /**
  * Fix compiler error "undefined reference to `memcpy'". 
  * Credit: stackoverflow

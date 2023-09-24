@@ -15,7 +15,7 @@ typedef struct Ball {
 } Ball;
 
 void DrawBall(Ball ball) {              
-    drawPixel(ball.x, ball.y, ball.attr);
+    drawPixel(ball.x, ball.y, WHITE);
 }
 
 void UpdateBall(Ball *ball) {           //GetScreenHeight->actual boundary value
@@ -31,12 +31,15 @@ void UpdateBall(Ball *ball) {           //GetScreenHeight->actual boundary value
     }
 }
 
+<<<<<<< Updated upstream
 typedef struct Paddle {
     int x1,y1;
     int x2,y2;
     int speed;                        //speed in y-direction
 } Paddle;
 
+=======
+>>>>>>> Stashed changes
 void DrawPaddle(Paddle paddle) {        
     drawRect(paddle.x1, paddle.y1, paddle.x2, paddle.y2, BLUE, 1);
 }
@@ -87,12 +90,19 @@ void UpdateCpuPaddle(Paddle *cpu, int ball_y) {
     }
 }
 
+<<<<<<< Updated upstream
 int main() {
+=======
+/**
+ * Game main program
+*/
+void game() {
+>>>>>>> Stashed changes
     //printf("bruhhhhh\n");
     framebf_init();
     //const int screen_width = 1600;
     //const int screen_height = 900;
-    drawRect(0, 0, mbox[5], mbox[6], WHITE, 0);
+    // drawRect(0, 0, mbox[5], mbox[6], WHITE, 0);
     //SetTargetFPS(60);
 
     Ball ball;
@@ -105,10 +115,10 @@ int main() {
     Paddle player;
     //player.width = 20;
     //player.height = 180;
-    player.x1 = mbox[5] - 20;
-    player.y1 = mbox[6] / 2 - 180 / 2;
+    player.x1 = mbox[5] - 100;
+    player.y1 = mbox[6] / 2 - 300 / 2;
     player.x2 = mbox[5];
-    player.y2 = mbox[6] / 2 + 180 / 2;
+    player.y2 = mbox[6] / 2 + 300 / 2;
     player.speed = 7;                   // player Paddle done
 
     Paddle cpu;
@@ -116,39 +126,44 @@ int main() {
     //cpu.paddle.height = 180;
     cpu.x1 = 10;
     cpu.y1 = 0;
-    cpu.x2 = 10 + 20;
-    cpu.y2 = mbox[6] / 2 + 180 / 2;
+    cpu.x2 = 10 + 100;
+    cpu.y2 = mbox[6] / 2 + 300 / 2;
     cpu.speed = 7;                      // cpu Paddle done
 
     while (1) {
         //BeginDrawing();
         
-        // Update
-        UpdateBall(&ball);
-        UpdatePaddle(&player);
-        UpdateCpuPaddle(&cpu, ball.y);
+        // // Update
+        // UpdateBall(&ball);
+        // UpdatePaddle(&player);
+        // UpdateCpuPaddle(&cpu, ball.y);
 
-        // Check for collisions
-        //if (CheckCollisionCircleRec((Vector2){ball.x, ball.y}, ball.radius, (Rectangle){player.x, player.y, player.width, player.height})) {
-          if(ball.x <= cpu.x2) {
-            ball.speed_x *= -1;
-        }
+        // // Check for collisions
+        // //if (CheckCollisionCircleRec((Vector2){ball.x, ball.y}, ball.radius, (Rectangle){player.x, player.y, player.width, player.height})) {
+        //   if(ball.x <= cpu.x2) {
+        //     ball.speed_x *= -1;
+        // }
 
-        //if (CheckCollisionCircleRec((Vector2){ball.x, ball.y}, ball.radius, (Rectangle){cpu.paddle.x, cpu.paddle.y, cpu.paddle.width, cpu.paddle.height})) {
-          if(ball.x >=player.x1) {
-            ball.speed_x *= -1;
-        }
+        // //if (CheckCollisionCircleRec((Vector2){ball.x, ball.y}, ball.radius, (Rectangle){cpu.paddle.x, cpu.paddle.y, cpu.paddle.width, cpu.paddle.height})) {
+        //   if(ball.x >=player.x1) {
+        //     ball.speed_x *= -1;
+        // }
 
         // Draw
-        clearScreen();                            //ClearBackground(BLACK);
+        //ClearBackground(BLACK);
         //DrawLine(screen_width / 2, 0, screen_width / 2, screen_height, WHITE);
         DrawBall(ball);
         DrawPaddle(player);
         DrawPaddle(cpu);
 
+        wait_msec(33);
+        // clearScreen();     
         //EndDrawing();
     }
-
     //CloseWindow();
+<<<<<<< Updated upstream
     return 0;
 }
+=======
+}
+>>>>>>> Stashed changes

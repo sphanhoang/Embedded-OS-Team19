@@ -1,10 +1,10 @@
 #include "../inc/framebf.h"
 #include "../inc/uart1.h"
+#include "../inc/delay.h"
 
 typedef struct {
     int x, y;
     int speed_x, speed_y;
-    int attr;
 } Ball;
 
 typedef struct {
