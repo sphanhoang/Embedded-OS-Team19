@@ -4,10 +4,6 @@
 */
 
 #include "../inc/kernel.h"
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 
 
 

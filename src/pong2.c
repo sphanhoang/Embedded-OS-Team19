@@ -31,15 +31,6 @@ void UpdateBall(Ball *ball) {           //GetScreenHeight->actual boundary value
     }
 }
 
-<<<<<<< Updated upstream
-typedef struct Paddle {
-    int x1,y1;
-    int x2,y2;
-    int speed;                        //speed in y-direction
-} Paddle;
-
-=======
->>>>>>> Stashed changes
 void DrawPaddle(Paddle paddle) {        
     drawRect(paddle.x1, paddle.y1, paddle.x2, paddle.y2, BLUE, 1);
 }
@@ -90,14 +81,10 @@ void UpdateCpuPaddle(Paddle *cpu, int ball_y) {
     }
 }
 
-<<<<<<< Updated upstream
-int main() {
-=======
 /**
  * Game main program
 */
 void game() {
->>>>>>> Stashed changes
     //printf("bruhhhhh\n");
     framebf_init();
     //const int screen_width = 1600;
@@ -161,9 +148,4 @@ void game() {
         //EndDrawing();
     }
     //CloseWindow();
-<<<<<<< Updated upstream
-    return 0;
 }
-=======
-}
->>>>>>> Stashed changes
