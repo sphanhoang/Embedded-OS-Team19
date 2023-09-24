@@ -229,7 +229,8 @@ void check_command(char *cli_buffer)
 		{"showinfo", showinfo},
 		{"draw", draw},
 		{"write", write},
-		{"picture", picture}
+		{"picture", picture},
+		{"game", game}
 	};
 
 	static char user_command[20];

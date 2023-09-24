@@ -1,18 +1,8 @@
-#include <stdio.h>
-//#include "raylib.h"
-#include "../inc/framebf.h"
-#include "framebf.c"
-#include "../inc/uart0.h"
-#include "../inc/uart1.h"
+#include "../inc/pong2.h"
+
 
 int player_score = 0;
 int cpu_score = 0;
-
-typedef struct Ball {
-    int x, y;
-    int speed_x, speed_y;
-    int attr;
-} Ball;
 
 void DrawBall(Ball ball) {              
     drawPixel(ball.x, ball.y, WHITE);
@@ -36,11 +26,13 @@ void DrawPaddle(Paddle paddle) {
 }
 
 void UpdatePaddle(Paddle *paddle) {
-    if (uart_getc("i")) {            //if (IsKeyDown(KEY_UP))
+    if (uart_getc() == 'i') {            //if (IsKeyDown(KEY_UP))
+        paddle->y1 -= paddle->speed;
         paddle->y2 -= paddle->speed;
     }
 
-    if (uart_getc("k")) {          //if (IsKeyDown(KEY_DOWN))
+    if (uart_getc() == 'k') {          //if (IsKeyDown(KEY_DOWN))
+        paddle->y1 += paddle->speed;
         paddle->y2 += paddle->speed;
     }
 
@@ -66,8 +58,10 @@ void UpdateCpuPaddle(Paddle *cpu, int ball_y) {
     //CpuPaddle paddle = &(cpu->paddle);
     if (cpu->y1 > ball_y) {
         cpu->y1 -= cpu->speed;
+        cpu->y2 -= cpu->speed;
     }
     if (cpu->y2 < ball_y) {
+        cpu->y1 += cpu->speed;
         cpu->y2 += cpu->speed;
     }
 
@@ -102,10 +96,10 @@ void game() {
     Paddle player;
     //player.width = 20;
     //player.height = 180;
-    player.x1 = mbox[5] - 100;
-    player.y1 = mbox[6] / 2 - 300 / 2;
+    player.x1 = mbox[5] - 20;
+    player.y1 = mbox[6] / 2 - 180 / 2;
     player.x2 = mbox[5];
-    player.y2 = mbox[6] / 2 + 300 / 2;
+    player.y2 = mbox[6] / 2 + 180 / 2;
     player.speed = 7;                   // player Paddle done
 
     Paddle cpu;
@@ -113,28 +107,28 @@ void game() {
     //cpu.paddle.height = 180;
     cpu.x1 = 10;
     cpu.y1 = 0;
-    cpu.x2 = 10 + 100;
-    cpu.y2 = mbox[6] / 2 + 300 / 2;
+    cpu.x2 = 10 + 20;
+    cpu.y2 = mbox[6] / 2 + 180 / 2;
     cpu.speed = 7;                      // cpu Paddle done
 
     while (1) {
         //BeginDrawing();
         
-        // // Update
-        // UpdateBall(&ball);
-        // UpdatePaddle(&player);
-        // UpdateCpuPaddle(&cpu, ball.y);
+        // Update
+        UpdateBall(&ball);
+        UpdatePaddle(&player);
+        UpdateCpuPaddle(&cpu, ball.y);
 
-        // // Check for collisions
-        // //if (CheckCollisionCircleRec((Vector2){ball.x, ball.y}, ball.radius, (Rectangle){player.x, player.y, player.width, player.height})) {
-        //   if(ball.x <= cpu.x2) {
-        //     ball.speed_x *= -1;
-        // }
+        // Check for collisions
+        //if (CheckCollisionCircleRec((Vector2){ball.x, ball.y}, ball.radius, (Rectangle){player.x, player.y, player.width, player.height})) {
+          if(ball.x <= cpu.x2) {
+            ball.speed_x *= -1;
+        }
 
-        // //if (CheckCollisionCircleRec((Vector2){ball.x, ball.y}, ball.radius, (Rectangle){cpu.paddle.x, cpu.paddle.y, cpu.paddle.width, cpu.paddle.height})) {
-        //   if(ball.x >=player.x1) {
-        //     ball.speed_x *= -1;
-        // }
+        //if (CheckCollisionCircleRec((Vector2){ball.x, ball.y}, ball.radius, (Rectangle){cpu.paddle.x, cpu.paddle.y, cpu.paddle.width, cpu.paddle.height})) {
+          if(ball.x >=player.x1) {
+            ball.speed_x *= -1;
+        }
 
         // Draw
         //ClearBackground(BLACK);
@@ -143,9 +137,14 @@ void game() {
         DrawPaddle(player);
         DrawPaddle(cpu);
 
-        wait_msec(33);
-        // clearScreen();     
+   
         //EndDrawing();
+        if (uart_getc() == 'c')
+        {
+            break;
+        }
+        // wait_msec(33);
+        clearScreen();  
     }
     //CloseWindow();
 }

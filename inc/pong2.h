@@ -1,6 +1,6 @@
-#include "../inc/framebf.h"
-#include "../inc/uart1.h"
-#include "../inc/delay.h"
+#include "framebf.h"
+#include "uart1.h"
+#include "delay.h"
 
 typedef struct {
     int x, y;
