@@ -20,4 +20,5 @@ void showinfo();
 void draw();
 void write();
 void picture();
+void game();
 void *memcpy(void *dest, const void *src, size_t n);

@@ -78,9 +78,9 @@ void UpdateCpuPaddle(Paddle *cpu, int ball_y) {
 /**
  * Game main program
 */
-void game() {
+void pong() {
     //printf("bruhhhhh\n");
-    framebf_init();
+    // framebf_init();
     //const int screen_width = 1600;
     //const int screen_height = 900;
     // drawRect(0, 0, mbox[5], mbox[6], WHITE, 0);
@@ -139,11 +139,8 @@ void game() {
 
    
         //EndDrawing();
-        if (uart_getc() == 'c')
-        {
-            break;
-        }
-        // wait_msec(33);
+
+        wait_msec(33);
         clearScreen();  
     }
     //CloseWindow();

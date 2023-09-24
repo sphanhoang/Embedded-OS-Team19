@@ -197,9 +197,10 @@ void cli()
             }
             break;
 		default:
-			uart_sendc(c);
 			cli_buffer[index] = c; //Store into the buffer
+			uart_sendc(c);
 			index++; // increase buffer size +1 to store the next character
+			break;
 	}
 }
 
@@ -546,6 +547,18 @@ void picture()
 	
 }
 
+/**
+ * Game call function
+*/
+
+void game()
+{
+	while (1)
+	{
+		pong();
+	}
+	
+}
 /**
  * Fix compiler error "undefined reference to `memcpy'". 
  * Credit: stackoverflow

@@ -18,4 +18,4 @@ void UpdateBall(Ball *ball);
 void DrawPaddle(Paddle paddle);
 void UpdatePaddle(Paddle *paddle);
 void UpdateCpuPaddle(Paddle *cpu, int ball_y);
-void game();
+void pong();
