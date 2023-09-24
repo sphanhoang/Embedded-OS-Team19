@@ -101,7 +101,7 @@ void cli()
 	static int scroll = 0;
 
 	//read each char
-	char c = uart_getc();
+	char c = getUart();
 
 	switch (c)
 	{
@@ -197,10 +197,13 @@ void cli()
             }
             break;
 		default:
-			cli_buffer[index] = c; //Store into the buffer
-			uart_sendc(c);
-			index++; // increase buffer size +1 to store the next character
-			break;
+			if (c != 0)
+			{
+				cli_buffer[index] = c; //Store into the buffer
+				uart_sendc(c);
+				index++; // increase buffer size +1 to store the next character
+			}
+			break;	
 	}
 }
 
@@ -526,17 +529,16 @@ void picture()
 	printf("SaltOS> Press 'w' or 's' to scroll the image up and down. Press 'c' to exit.\n");
 	clearScreen();
 	showPicture(offset);
-	while (uart_getc() != 'c')
+	while (getUart() != 'c')
 	{
-		// char input = uart_getc();
-		if (uart_getc() == 'w')
+		// char input = getUart();
+		if (getUart() == 'w')
 		{
 			offset -= 10;
 			// clearScreen();
 			showPicture(offset);
-			drawRect(0, offset-10, pic_width, offset-1, BLACK, 1);
 		}
-		else if (uart_getc() == 's')
+		else if (getUart() == 's')
 		{
 			offset += 10;
 			// clearScreen();
@@ -547,18 +549,6 @@ void picture()
 	
 }
 
-/**
- * Game call function
-*/
-
-void game()
-{
-	while (1)
-	{
-		pong();
-	}
-	
-}
 /**
  * Fix compiler error "undefined reference to `memcpy'". 
  * Credit: stackoverflow

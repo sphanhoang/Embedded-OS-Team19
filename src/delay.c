@@ -1,20 +1,20 @@
 #include "../inc/delay.h"
 
 
-//Check if the user has just inputted a new key
-unsigned int uart_isReadByteReady()
-{
-	return (AUX_MU_LSR & 0x01);
-}
+// //Check if the user has just inputted a new key
+// unsigned int uart_isReadByteReady()
+// {
+// 	return (AUX_MU_LSR & 0x01);
+// }
 
-/* New function: Check and return if no new character, don't wait */
-unsigned char getUart()
-{
-    unsigned char ch = 0;
-    if (uart_isReadByteReady())
-    	ch = uart_getc();
-    return ch;
-}
+// /* New function: Check and return if no new character, don't wait */
+// unsigned char getUart()
+// {
+//     unsigned char ch = 0;
+//     if (uart_isReadByteReady())
+//     	ch = uart_getc();
+//     return ch;
+// }
 
 /* Function to wait for some msec: the program will stop there */
 void wait_msec(unsigned int n)

@@ -26,12 +26,12 @@ void DrawPaddle(Paddle paddle) {
 }
 
 void UpdatePaddle(Paddle *paddle) {
-    if (uart_getc() == 'i' && paddle->y1 > 0) {            //if (IsKeyDown(KEY_UP))
+    if (getUart() == 'i') {            //if (IsKeyDown(KEY_UP))
         paddle->y1 -= paddle->speed;
         paddle->y2 -= paddle->speed;
     }
 
-    if (uart_getc() == 'k' && paddle->y2 < mbox[6]) {          //if (IsKeyDown(KEY_DOWN))
+    if (getUart() == 'k') {          //if (IsKeyDown(KEY_DOWN))
         paddle->y1 += paddle->speed;
         paddle->y2 += paddle->speed;
     }
@@ -78,20 +78,20 @@ void UpdateCpuPaddle(Paddle *cpu, int ball_y) {
 /**
  * Game main program
 */
-void pong() {
+void game() {
     //printf("bruhhhhh\n");
     // framebf_init();
     //const int screen_width = 1600;
     //const int screen_height = 900;
-    // drawRect(0, 0, mbox[5], mbox[6], WHITE, 0);
+    drawRect(0, 0, mbox[5]-1, mbox[6]-1, WHITE, 0);
     //SetTargetFPS(60);
 
     Ball ball;
     //ball.radius = 20;
     ball.x = mbox[5] / 2;
     ball.y = mbox[6] / 2;
-    ball.speed_x = 7;
-    ball.speed_y = 7;                   //checkpoint 1, Ball done
+    ball.speed_x = 3;
+    ball.speed_y = 3;                   //checkpoint 1, Ball done
 
     Paddle player;
     //player.width = 20;
@@ -100,7 +100,7 @@ void pong() {
     player.y1 = mbox[6] / 2 - 180 / 2;
     player.x2 = mbox[5]-5;
     player.y2 = mbox[6] / 2 + 180 / 2;
-    player.speed = 7;                   // player Paddle done
+    player.speed = 3;                   // player Paddle done
 
     Paddle cpu;
     //cpu.paddle.width = 20;
@@ -109,9 +109,10 @@ void pong() {
     cpu.y1 = mbox[6] / 2 - 180 / 2;
     cpu.x2 = 10 + 20;
     cpu.y2 = mbox[6] / 2 + 180 / 2;
-    cpu.speed = 7;                      // cpu Paddle done
+    cpu.speed = 3;                      // cpu Paddle done
 
-    while (1) {
+    while (getUart() != 'c') 
+    {
         //BeginDrawing();
         
         // Update
@@ -121,12 +122,14 @@ void pong() {
 
         // Check for collisions
         //if (CheckCollisionCircleRec((Vector2){ball.x, ball.y}, ball.radius, (Rectangle){player.x, player.y, player.width, player.height})) {
-          if(ball.x <= cpu.x2) {
+        if(ball.x <= cpu.x2) 
+        {
             ball.speed_x *= -1;
         }
 
         //if (CheckCollisionCircleRec((Vector2){ball.x, ball.y}, ball.radius, (Rectangle){cpu.paddle.x, cpu.paddle.y, cpu.paddle.width, cpu.paddle.height})) {
-          if(ball.x >=player.x1) {
+        if(ball.x >=player.x1) 
+        {
             ball.speed_x *= -1;
         }
 
@@ -140,8 +143,8 @@ void pong() {
    
         //EndDrawing();
 
-        wait_msec(33);
-        clearScreen();  
+        // wait_msec(100);
+        clearScreen();   
     }
     //CloseWindow();
 }
