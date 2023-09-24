@@ -26,12 +26,12 @@ void DrawPaddle(Paddle paddle) {
 }
 
 void UpdatePaddle(Paddle *paddle) {
-    if (uart_getc() == 'i') {            //if (IsKeyDown(KEY_UP))
+    if (uart_getc() == 'i' && paddle->y1 > 0) {            //if (IsKeyDown(KEY_UP))
         paddle->y1 -= paddle->speed;
         paddle->y2 -= paddle->speed;
     }
 
-    if (uart_getc() == 'k') {          //if (IsKeyDown(KEY_DOWN))
+    if (uart_getc() == 'k' && paddle->y2 < mbox[6]) {          //if (IsKeyDown(KEY_DOWN))
         paddle->y1 += paddle->speed;
         paddle->y2 += paddle->speed;
     }
@@ -96,9 +96,9 @@ void game() {
     Paddle player;
     //player.width = 20;
     //player.height = 180;
-    player.x1 = mbox[5] - 20;
+    player.x1 = mbox[5] - 25;
     player.y1 = mbox[6] / 2 - 180 / 2;
-    player.x2 = mbox[5];
+    player.x2 = mbox[5]-5;
     player.y2 = mbox[6] / 2 + 180 / 2;
     player.speed = 7;                   // player Paddle done
 
@@ -106,7 +106,7 @@ void game() {
     //cpu.paddle.width = 20;
     //cpu.paddle.height = 180;
     cpu.x1 = 10;
-    cpu.y1 = 0;
+    cpu.y1 = mbox[6] / 2 - 180 / 2;
     cpu.x2 = 10 + 20;
     cpu.y2 = mbox[6] / 2 + 180 / 2;
     cpu.speed = 7;                      // cpu Paddle done
