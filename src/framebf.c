@@ -356,7 +356,7 @@ void drawPixel(int x, int y, unsigned int attr)
 
 /**
  * Draw the rectangle
- * @return none
+ * x1-y1 = top left, x2-y2 = bottom right
 */
 void drawRect(int x1, int y1, int x2, int y2, unsigned int attr, int fill)
 {
@@ -379,6 +379,7 @@ void drawRect(int x1, int y1, int x2, int y2, unsigned int attr, int fill)
 
 /**
  * Draw a line
+ * 
 */
 void drawLine(int x1, int y1, int x2, int y2, unsigned int attr)  
 {  
