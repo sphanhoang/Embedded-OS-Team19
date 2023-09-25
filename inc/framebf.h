@@ -1,4 +1,7 @@
 // ----------------------------------- framebf.h -------------------------------------
+#ifndef FRAMEBF_H
+#define FRAMEBF_H
+
 #include "mbox.h"
 #include "printf.h"
 
@@ -37,3 +40,5 @@ void drawChar(unsigned char ch, int x, int y, unsigned int attr, int scale);
 void drawString(int x, int y, char *s, unsigned int attr, int scale);
 void showPicture(int offset);
 void clearScreen();
+
+#endif

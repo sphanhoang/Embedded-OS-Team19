@@ -1,4 +1,7 @@
 // -----------------------------------mbox.h ------------------------------------- 
+#ifndef MBOX_H
+#define MBOX_H
+
 #include "gpio.h" 
 #include "uart1.h" 
  
@@ -64,3 +67,5 @@ extern volatile unsigned int mbox[36];
  
 /* Function Prototypes */ 
 int mbox_call(unsigned int buffer_addr, unsigned char channel); 
+
+#endif

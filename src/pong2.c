@@ -3,6 +3,7 @@
 int player_score = 0;
 int cpu_score = 0;
 extern int width, height; // physical dimension
+char userInput;
 
 /**
  * Draw ball function
@@ -48,7 +49,7 @@ void DrawPaddle(Paddle paddle)
 */
 void UpdatePaddle(Paddle *paddle) 
 {
-    if (getUart() == 'w') 
+    if (userInput == 'w') 
     {            //if (IsKeyDown(KEY_UP))
         if (paddle->y1 >= 0)    // limit paddle movement to screen boundary
         {
@@ -58,7 +59,7 @@ void UpdatePaddle(Paddle *paddle)
         }
     }
 
-    if (getUart() == 's') 
+    if (userInput == 's') 
     {          //if (IsKeyDown(KEY_DOWN))
         if (paddle->y2 <= height)  // limit paddle movement to screen boundary
         {
@@ -85,7 +86,7 @@ void UpdateCpuPaddle(Paddle *cpu, int ball_y) {
     }
     if (cpu->y2 < ball_y) 
     {
-        if (cpu->y2 <= mbox[6]) // limit paddle movement to screen boundary
+        if (cpu->y2 <= height) // limit paddle movement to screen boundary
         {
             drawRect(cpu->x1, cpu->y1, cpu->x2, cpu->y2, BLACK, 1);
             cpu->y1 += cpu->speed;
@@ -100,6 +101,7 @@ void UpdateCpuPaddle(Paddle *cpu, int ball_y) {
 void game() 
 {
     clearScreen();
+    userInput = 0;
     Ball ball;
     //ball.radius = 20;
     ball.x = width / 2;
@@ -115,7 +117,7 @@ void game()
     player.y1 = height/ 2 - 180 / 2;
     player.x2 = width- 5;
     player.y2 = height/ 2 + 180 / 2;
-    player.speed = 3;                   // player Paddle done
+    player.speed = 20;                   // player Paddle done
 
     Paddle cpu;
     //cpu.paddle.width = 20;
@@ -127,8 +129,9 @@ void game()
     cpu.speed = 3;                      // cpu Paddle done
 
     state gameState = menu;
-    while (getUart() != 'c') 
+    while (userInput != 'c') 
     {
+        userInput = getUart();
         switch (gameState)
         {
             case menu:
@@ -138,7 +141,7 @@ void game()
                 DrawBall(ball);
                 DrawPaddle(player);
                 DrawPaddle(cpu);
-                if (getUart() == ' ')
+                if (userInput == ' ')
                 {
                     gameState = play;
                     clearScreen();

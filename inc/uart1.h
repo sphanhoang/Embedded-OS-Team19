@@ -1,3 +1,6 @@
+#ifndef UART1_h
+#define UART1_h
+
 #include "gpio.h"
 
 /* Auxilary mini UART (UART1) registers */
@@ -24,3 +27,5 @@ void uart_hex(unsigned int num);
 void uart_dec(int num);
 unsigned int uart_isReadByteReady();
 unsigned char getUart();
+
+#endif

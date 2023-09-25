@@ -1,3 +1,6 @@
+#ifndef PONG2_H
+#define PONG2_H
+
 #include "framebf.h"
 #include "uart1.h"
 #include "delay.h"
@@ -19,10 +22,11 @@ typedef enum{
     play
 }state;
 
-
 void DrawBall (Ball ball);
 void UpdateBall(Ball *ball);
 void DrawPaddle(Paddle paddle);
 void UpdatePaddle(Paddle *paddle);
 void UpdateCpuPaddle(Paddle *cpu, int ball_y);
 void game();
+
+#endif
