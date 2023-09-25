@@ -3,11 +3,20 @@
 int player_score = 0;
 int cpu_score = 0;
 extern int width, height; // physical dimension
+
+/**
+ * Draw ball function
+ * @param ball: Ball variable contains x, y and radius parameter
+*/
 void DrawBall(Ball ball) 
 {              
     drawCircle(ball.x, ball.y, ball.radius, WHITE, 1);
 }
 
+/**
+ * Update current position of the ball
+ * @param ball: a pointer point to ball variable
+*/
 void UpdateBall(Ball *ball) 
 {           //GetScreenHeight->actual boundary value
     drawCircle(ball->x, ball->y, ball->radius, BLACK, 1);
@@ -25,14 +34,21 @@ void UpdateBall(Ball *ball)
     }
 }
 
+/**
+ * Draw paddle function
+ * @param paddle: Paddle variable contains coordinate of top left and bottom right points and color
+*/
 void DrawPaddle(Paddle paddle) 
 {        
     drawRect(paddle.x1, paddle.y1, paddle.x2, paddle.y2, BLUE, 1);
 }
 
+/**
+ * Update player paddle position
+*/
 void UpdatePaddle(Paddle *paddle) 
 {
-    if (getUart() == 'i') 
+    if (getUart() == 'w') 
     {            //if (IsKeyDown(KEY_UP))
         if (paddle->y1 >= 0)    // limit paddle movement to screen boundary
         {
@@ -42,7 +58,7 @@ void UpdatePaddle(Paddle *paddle)
         }
     }
 
-    if (getUart() == 'k') 
+    if (getUart() == 's') 
     {          //if (IsKeyDown(KEY_DOWN))
         if (paddle->y2 <= height)  // limit paddle movement to screen boundary
         {
@@ -53,6 +69,9 @@ void UpdatePaddle(Paddle *paddle)
     }
 }
 
+/**
+ * Update CPU paddle position
+*/
 void UpdateCpuPaddle(Paddle *cpu, int ball_y) {
     //CpuPaddle paddle = &(cpu->paddle);
     if (cpu->y1 > ball_y) 
@@ -107,34 +126,55 @@ void game()
     cpu.y2 = height/ 2 + 180 / 2;
     cpu.speed = 3;                      // cpu Paddle done
 
+    state gameState = menu;
     while (getUart() != 'c') 
     {
-        //BeginDrawing();
-        
-        // Update
-        UpdateBall(&ball);
-        UpdatePaddle(&player);
-        UpdateCpuPaddle(&cpu, ball.y);
-
-        // Check for collisions
-        //if (CheckCollisionCircleRec((Vector2){ball.x, ball.y}, ball.radius, (Rectangle){player.x, player.y, player.width, player.height})) {
-        if((ball.x - ball.radius <= cpu.x2) && (ball.y - ball.radius >= cpu.y1) && (ball.y + ball.radius < cpu.y2)) 
+        switch (gameState)
         {
-            ball.speed_x *= -1;
-        }
+            case menu:
+                drawString(280, 100, "Welcome to Pong", WHITE, 4);
+                drawString(330, 250, "Press Spacebar to begin", YELLOW, 2);
+                drawString(260, 300, "Press W and S to move up and down", YELLOW, 2);
+                DrawBall(ball);
+                DrawPaddle(player);
+                DrawPaddle(cpu);
+                if (getUart() == ' ')
+                {
+                    gameState = play;
+                    clearScreen();
+                }
+                break;
+            case play:
+                //BeginDrawing();
+                // Update
+                UpdateBall(&ball);
+                UpdatePaddle(&player);
+                UpdateCpuPaddle(&cpu, ball.y);
 
-        //if (CheckCollisionCircleRec((Vector2){ball.x, ball.y}, ball.radius, (Rectangle){cpu.paddle.x, cpu.paddle.y, cpu.paddle.width, cpu.paddle.height})) {
-        if((ball.x + ball.radius >= player.x1) && (ball.y - ball.radius >= player.y1) && (ball.y + ball.radius < player.y2))
-        {
-            ball.speed_x *= -1;
-        }
-        // Draw
-        //ClearBackground(BLACK);
-        //DrawLine(screen_width / 2, 0, screen_width / 2, screen_height, WHITE);
-        DrawBall(ball);
-        DrawPaddle(player);
-        DrawPaddle(cpu);
+                // Check for collisions
+                //if (CheckCollisionCircleRec((Vector2){ball.x, ball.y}, ball.radius, (Rectangle){player.x, player.y, player.width, player.height})) {
+                if((ball.x - ball.radius <= cpu.x2) && (ball.y - ball.radius >= cpu.y1) && (ball.y + ball.radius < cpu.y2)) 
+                {
+                    ball.speed_x *= -1;
+                }
 
-        wait_msec(5000);
+                //if (CheckCollisionCircleRec((Vector2){ball.x, ball.y}, ball.radius, (Rectangle){cpu.paddle.x, cpu.paddle.y, cpu.paddle.width, cpu.paddle.height})) {
+                if((ball.x + ball.radius >= player.x1) && (ball.y - ball.radius >= player.y1) && (ball.y + ball.radius < player.y2))
+                {
+                    ball.speed_x *= -1;
+                }
+                // Draw
+                //ClearBackground(BLACK);
+                //DrawLine(screen_width / 2, 0, screen_width / 2, screen_height, WHITE);
+                DrawBall(ball);
+                DrawPaddle(player);
+                DrawPaddle(cpu);
+
+                wait_msec(5000);
+                break;
+            default:
+                gameState = menu;
+                break;
+        }
     }
 }

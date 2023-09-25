@@ -335,9 +335,9 @@ void framebf_init()
 
 /**
  * Draw one pixel
- * @param x
- * @param y
- * @param attr
+ * @param x: x coordinate
+ * @param y: y coordinate
+ * @param attr: color
  * @return none
 */
 void drawPixel(int x, int y, unsigned int attr)
@@ -356,7 +356,13 @@ void drawPixel(int x, int y, unsigned int attr)
 
 /**
  * Draw the rectangle
- * x1-y1 = top left, x2-y2 = bottom right
+ * @param x1: top left x
+ * @param y1: top left y
+ * @param x2: bottom right x
+ * @param y2: bottom right y
+ * @param attr: color
+ * @param fill: fill or not (1 or 0)
+ * @return none
 */
 void drawRect(int x1, int y1, int x2, int y2, unsigned int attr, int fill)
 {
@@ -379,7 +385,12 @@ void drawRect(int x1, int y1, int x2, int y2, unsigned int attr, int fill)
 
 /**
  * Draw a line
- * 
+ * @param x1: starting point x
+ * @param y1: starint point y
+ * @param x2: end point x
+ * @param y2: end point y
+ * @param attr: color
+ * @return none
 */
 void drawLine(int x1, int y1, int x2, int y2, unsigned int attr)  
 {  
@@ -406,6 +417,11 @@ void drawLine(int x1, int y1, int x2, int y2, unsigned int attr)
 
 /**
  * Draw a circle
+ * @param x0: center x
+ * @param y0: center y
+ * @param radius: radius in pixel
+ * @param attr: color
+ * @param fill: fill or not (1 or 0)
 */
 void drawCircle(int x0, int y0, int radius, unsigned int attr, int fill)
 {
@@ -448,37 +464,38 @@ void drawCircle(int x0, int y0, int radius, unsigned int attr, int fill)
 
 /**
  * Draw characters with defined font.
- * @param ch
- * @param x
- * @param y
- * @param atr
+ * @param ch: character
+ * @param x: x coordinate
+ * @param y: y coordinate
+ * @param attr: color
+ * @param scale: font size (1 is smallest)
  * @return void
 */
-void drawChar(unsigned char ch, int x, int y, unsigned int attr)
+void drawChar(unsigned char ch, int x, int y, unsigned int attr, int scale)
 {
     unsigned char *glyph = (unsigned char *)&font + (ch < FONT_NUMGLYPHS ? ch : 0) * FONT_BPG;
 
-    for (int i=0;i<FONT_HEIGHT;i++) 
+    for (int i=1;i<=FONT_HEIGHT*scale;i++) 
     {
-        for (int j=0;j<FONT_WIDTH;j++) 
+        for (int j=0;j<FONT_WIDTH*scale;j++) 
         {
-            unsigned char mask = 1 << j;
+            unsigned char mask = 1 << j/scale;
             unsigned int col = (*glyph & mask) ? attr : BLACK;
             drawPixel(x+j, y+i, col);
         }
-	    glyph += FONT_BPL;
+	    glyph += (i % scale) ? 0 : FONT_BPL;
     }
 }
 
 /**
  * Writes string of characters on to the screen
- * @param x
- * @param y
- * @param s
- * @param attr
+ * @param x: starting x
+ * @param y: starting y
+ * @param s: printing line
+ * @param attr: color
  * @return none
 */
-void drawString(int x, int y, char *s, unsigned int attr)
+void drawString(int x, int y, char *s, unsigned int attr, int scale)
 {
     while (*s) {
        if (*s == '\r') 
@@ -487,12 +504,12 @@ void drawString(int x, int y, char *s, unsigned int attr)
        } 
        else if(*s == '\n') 
        {
-          x = 0; y += FONT_HEIGHT;
+          x = 0; y += FONT_HEIGHT*scale;
        } 
        else 
        {
-	  drawChar(*s, x, y, attr);
-          x += FONT_WIDTH;
+	  drawChar(*s, x, y, attr, scale);
+          x += FONT_WIDTH*scale;
        }
        s++;
     }

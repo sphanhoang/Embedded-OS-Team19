@@ -14,6 +14,12 @@ typedef struct {
     int speed;                        //speed in y-direction
 } Paddle;
 
+typedef enum{
+    menu,
+    play
+}state;
+
+
 void DrawBall (Ball ball);
 void UpdateBall(Ball *ball);
 void DrawPaddle(Paddle paddle);

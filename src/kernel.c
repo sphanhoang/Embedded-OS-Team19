@@ -209,7 +209,7 @@ void cli()
 
 /**
  * Examine user input to see if it is a valid command
- * @param cli_buffer
+ * @param cli_buffer: user input string
  * @return none
 */
 void check_command(char *cli_buffer)
@@ -283,7 +283,7 @@ void clear ()
 
 /**
  * printing <help> command lines
- * @param cli_buffer
+ * @param cli_buffer: user input string
  * @return none
 */
 void help(char *cli_buffer)
@@ -354,7 +354,7 @@ void help(char *cli_buffer)
 
 /**
  * Set color and background color for CLI text
- * @param cli_buffer
+ * @param cli_buffer: user input string
  * @return none
  */
 void set_color(char *cli_buffer)
@@ -503,7 +503,7 @@ void draw()
 	drawRect(200,200,400,400,BLUE,1); //BLUE
 	drawRect(250,250,400,400,YELLOW,1); //YELLOW
 	drawPixel(300, 300, RED); //RED
-    drawString(100,100,"Hello world!",WHITE);
+    drawString(100,100,"Hello world!",WHITE, 1);
 }
 
 /**
@@ -514,10 +514,10 @@ void draw()
 void write()
 {
 	clearScreen();
-	drawString(400,200, "Phan Hoang Son", WHITE);
-	drawString(400,250, "Nguyen Minh Khoi", LIME);
-	drawString(400,300, "Nghiem The Minh", FUCHSIA);
-	drawString(400,350, "Nguyen Ngoc Minh Quang", OLIVE);
+	drawString(400,200, "Phan Hoang Son", WHITE, 1);
+	drawString(350,250, "Nguyen Minh Khoi", LIME, 2);
+	drawString(300,300, "Nghiem The Minh", FUCHSIA, 3);
+	drawString(250,350, "Nguyen Ngoc Minh Quang", OLIVE,4);
 }
 
 /**
@@ -552,8 +552,8 @@ void picture()
 /**
  * Fix compiler error "undefined reference to `memcpy'". 
  * Credit: stackoverflow
- * @param *dest
- * @param *src
+ * @param dest
+ * @param src
  * @param n
  * @return none
 */
