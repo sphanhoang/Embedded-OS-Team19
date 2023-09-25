@@ -401,17 +401,31 @@ void drawLine(int x1, int y1, int x2, int y2, unsigned int attr)
     x = x1;
     y = y1;
     p = 2*dy-dx;
-
-    while (x<x2) {
-       if (p >= 0) {
-          drawPixel(x,y,attr);
-          y++;
-          p = p+2*dy-2*dx;
-       } else {
-          drawPixel(x,y,attr);
-          p = p+2*dy;
-       }
-       x++;
+    if (x == x2)
+    {
+        while (y < y2)
+        {
+            drawPixel(x,y,attr);
+            y++;
+        }
+    }
+    else
+    {
+        while (x<x2) 
+        {
+            if (p >= 0) 
+            {
+                drawPixel(x,y,attr);
+                y++;
+                p = p+2*dy-2*dx;
+            } 
+            else 
+            {
+                drawPixel(x,y,attr);
+                p = p+2*dy;
+            }
+        x++;
+        }
     }
 }
 
@@ -493,6 +507,7 @@ void drawChar(unsigned char ch, int x, int y, unsigned int attr, int scale)
  * @param y: starting y
  * @param s: printing line
  * @param attr: color
+ * @param scale: font size (1 is the smallest)
  * @return none
 */
 void drawString(int x, int y, char *s, unsigned int attr, int scale)

@@ -73,7 +73,8 @@ void UpdatePaddle(Paddle *paddle)
 /**
  * Update CPU paddle position
 */
-void UpdateCpuPaddle(Paddle *cpu, int ball_y) {
+void UpdateCpuPaddle(Paddle *cpu, int ball_y) 
+{
     //CpuPaddle paddle = &(cpu->paddle);
     if (cpu->y1 > ball_y) 
     {
@@ -107,8 +108,8 @@ void game()
     ball.x = width / 2;
     ball.y = height / 2;
     ball.radius = 10;
-    ball.speed_x = 3;
-    ball.speed_y = 3;                   //checkpoint 1, Ball done
+    ball.speed_x = 10;
+    ball.speed_y = 10;                   //checkpoint 1, Ball done
 
     Paddle player;
     //player.width = 20;
@@ -126,7 +127,7 @@ void game()
     cpu.y1 = height/ 2 - 180 / 2;
     cpu.x2 = 5 + 20;
     cpu.y2 = height/ 2 + 180 / 2;
-    cpu.speed = 3;                      // cpu Paddle done
+    cpu.speed = 20;                      // cpu Paddle done
 
     state gameState = menu;
     while (userInput != 'c') 
@@ -136,11 +137,15 @@ void game()
         {
             case menu:
                 drawString(280, 100, "Welcome to Pong", WHITE, 4);
-                drawString(330, 250, "Press Spacebar to begin", YELLOW, 2);
                 drawString(260, 300, "Press W and S to move up and down", YELLOW, 2);
                 DrawBall(ball);
                 DrawPaddle(player);
                 DrawPaddle(cpu);
+                drawString(330, 250, "Press Spacebar to begin", YELLOW, 2);
+                wait_msec(250000);  // 250ms
+                drawString(330, 250, "Press Spacebar to begin", BLACK, 2);
+                wait_msec(250000);  // 250ms
+
                 if (userInput == ' ')
                 {
                     gameState = play;
@@ -150,6 +155,7 @@ void game()
             case play:
                 //BeginDrawing();
                 // Update
+                drawLine(width/2, 0, width/2, height, WHITE);
                 UpdateBall(&ball);
                 UpdatePaddle(&player);
                 UpdateCpuPaddle(&cpu, ball.y);
@@ -173,7 +179,7 @@ void game()
                 DrawPaddle(player);
                 DrawPaddle(cpu);
 
-                wait_msec(5000);
+                wait_msec(33000);   // 33ms = 30fps
                 break;
             default:
                 gameState = menu;
