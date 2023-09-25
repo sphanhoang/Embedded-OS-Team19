@@ -4,6 +4,7 @@
 
 typedef struct {
     int x, y;
+    int radius;
     int speed_x, speed_y;
 } Ball;
 

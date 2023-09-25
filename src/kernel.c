@@ -529,16 +529,16 @@ void picture()
 	printf("SaltOS> Press 'w' or 's' to scroll the image up and down. Press 'c' to exit.\n");
 	clearScreen();
 	showPicture(offset);
-	while (getUart() != 'c')
+	while (uart_getc() != 'c')
 	{
 		// char input = getUart();
-		if (getUart() == 'w')
+		if (uart_getc() == 'w')
 		{
 			offset -= 10;
 			// clearScreen();
 			showPicture(offset);
 		}
-		else if (getUart() == 's')
+		else if (uart_getc() == 's')
 		{
 			offset += 10;
 			// clearScreen();
@@ -546,7 +546,6 @@ void picture()
 			drawRect(0, offset-10, pic_width, offset-1, BLACK, 1);
 		}
 	}
-	
 }
 
 /**

@@ -377,6 +377,73 @@ void drawRect(int x1, int y1, int x2, int y2, unsigned int attr, int fill)
     }
 }
 
+/**
+ * Draw a line
+*/
+void drawLine(int x1, int y1, int x2, int y2, unsigned int attr)  
+{  
+    int dx, dy, p, x, y;
+
+    dx = x2-x1;
+    dy = y2-y1;
+    x = x1;
+    y = y1;
+    p = 2*dy-dx;
+
+    while (x<x2) {
+       if (p >= 0) {
+          drawPixel(x,y,attr);
+          y++;
+          p = p+2*dy-2*dx;
+       } else {
+          drawPixel(x,y,attr);
+          p = p+2*dy;
+       }
+       x++;
+    }
+}
+
+/**
+ * Draw a circle
+*/
+void drawCircle(int x0, int y0, int radius, unsigned int attr, int fill)
+{
+    int x = radius;
+    int y = 0;
+    int err = 0;
+ 
+    while (x >= y) 
+    {
+        if (fill) 
+        {
+            drawLine(x0 - y, y0 + x, x0 + y, y0 + x, attr);
+            drawLine(x0 - x, y0 + y, x0 + x, y0 + y, attr);
+            drawLine(x0 - x, y0 - y, x0 + x, y0 - y, attr);
+            drawLine(x0 - y, y0 - x, x0 + y, y0 - x, attr);
+        }
+        drawPixel(x0 - y, y0 + x, attr);
+        drawPixel(x0 + y, y0 + x, attr);
+        drawPixel(x0 - x, y0 + y, attr);
+        drawPixel(x0 + x, y0 + y, attr);
+        drawPixel(x0 - x, y0 - y, attr);
+        drawPixel(x0 + x, y0 - y, attr);
+        drawPixel(x0 - y, y0 - x, attr);
+        drawPixel(x0 + y, y0 - x, attr);
+
+        if (err <= 0) 
+        {
+            y += 1;
+            err += 2*y + 1;
+        }
+    
+        if (err > 0) 
+        {
+            x -= 1;
+            err -= 2*x + 1;
+        }
+    }
+}
+
 
 /**
  * Draw characters with defined font.
