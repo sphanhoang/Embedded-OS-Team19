@@ -304,8 +304,7 @@ void help(char *cli_buffer)
 		{"showinfo", "Show board information.", "showinfo"},
 		{"draw", "Draw rectangles.", "draw"},
 		{"write", "write the name of four members", "write"},
-		{"picture", "show a picture", "picture"},
-		{"game", "Type <game> to play pong", "game"}
+		{"picture", "show a picture", "picture"}
 	};
 
 	static char user_option[20];
