@@ -56,6 +56,9 @@ void main()
 	printf("SaltOS>");
 	framebf_init();
 	printf("SaltOS>");
+
+	showPicture();
+
     // run CLI
     while(1) 
 	{
