@@ -5,7 +5,7 @@
 
 #include "../inc/kernel.h"
 
-
+extern unsigned int width, height;
 
 //========================MAIN============================//
 
@@ -57,7 +57,7 @@ void main()
 	framebf_init();
 	printf("SaltOS>");
 
-	showPicture(0);
+	showPicture(width/2 - GABEN_W/2, 0, GABEN_H, GABEN_W, gaben);
 
     // run CLI
     while(1) 
@@ -237,6 +237,7 @@ void check_command(char *cli_buffer)
 		{"draw", draw},
 		{"write", write},
 		{"picture", picture},
+		{"video", video},
 		{"game", game}
 	};
 
@@ -308,6 +309,7 @@ void help(char *cli_buffer)
 		{"draw", "Draw rectangles.", "draw"},
 		{"write", "write the name of four members", "write"},
 		{"picture", "show a picture", "picture"},
+		{"video", "play a short video", "video"},
 		{"game", "Type <game> to play pong", "game"}
 	};
 
@@ -494,12 +496,6 @@ void draw()
 {
 	// Initialize frame buffer
 
-	// Draw something on the screen
-	// drawRect(100,100,400,400,0x00AA0000,1); //RED
-	// drawRect(150,150,400,400,0x0000BB00,1); //GREEN
-	// drawRect(200,200,400,400,0x000000CC,1); //BLUE
-	// drawRect(250,250,400,400,0x00FFFF00,1); //YELLOW
-	// drawPixel(300, 300, 0x00FF0000); //RED
 	clearScreen();
 	drawRect(100,100,400,400,RED,1); //RED
 	drawRect(150,150,400,400,GREEN,1); //GREEN
@@ -528,27 +524,38 @@ void write()
 */
 void picture()
 {
-	int offset = 0;
-	extern int pic_width;
+	int offset_y = 0;
 	printf("SaltOS> Press 'w' or 's' to scroll the image up and down. Press 'c' to exit.\n");
 	clearScreen();
-	showPicture(offset);
+	showPicture(width/2 - PIC_W/2, offset_y, PIC_H, PIC_W, myBitmappic);
 	while (uart_getc() != 'c')
 	{
 		// char input = getUart();
 		if (uart_getc() == 'w')
 		{
-			offset -= 10;
+			offset_y -= 10;
 			// clearScreen();
-			showPicture(offset);
+			showPicture(width/2 - PIC_W/2, offset_y, PIC_H, PIC_W, myBitmappic);
 		}
 		else if (uart_getc() == 's')
 		{
-			offset += 10;
+			offset_y += 10;
 			// clearScreen();
-			showPicture(offset);
-			drawRect(0, offset-10, pic_width, offset-1, BLACK, 1);
+			showPicture(width/2 - PIC_W/2, offset_y, PIC_H, PIC_W, myBitmappic);
+			drawRect(width/2 - PIC_W/2, offset_y-10, width/2 + PIC_W/2, offset_y-1, BLACK, 1);
 		}
+	}
+}
+
+/**
+ * Play a video
+*/
+void video()
+{	
+	clearScreen();
+	while (getUart() != 'c')
+	{
+		showVideo(width/2 - VID_W/2, height/2 - VID_H/2, VID_H, VID_W, vidArray);
 	}
 }
 

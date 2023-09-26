@@ -205,6 +205,7 @@ void gameini(Ball *ball, Paddle *paddle)
 */
 void game() 
 {
+    uart_puts("SaltOS> Welcome to Pong! Press 'c' to return to CLI");
     clearScreen();
     Ball ball;
     // Paddle player;
@@ -257,6 +258,7 @@ void game()
                     playerScore++;
                     gameState = endgame;
                 }       
+
                 DrawBall(ball);
                 DrawPaddle(player[0]);
                 DrawPaddle(player[1]);

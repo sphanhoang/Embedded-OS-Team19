@@ -1,10 +1,9 @@
 // ----------------------------------- framebf.c -------------------------------------
 #include "../inc/framebf.h"
-#include "../inc/image.h"
 
 //Screen info
 unsigned int width, height, pitch, isrgb;
-
+const int vidArray_LEN = 29;
 /* Frame buffer address
 * (declare as pointer of unsigned char to access each byte) */
 unsigned char *fb;
@@ -532,18 +531,49 @@ void drawString(int x, int y, char *s, unsigned int attr, int scale)
 
 /**
  * Show a picture
+ * @param offset_x: top left x coordinate
+ * @param offset_y: top left y coordinate
+ * @param h: picture height
+ * @param w: picture w
+ * @param image: pixel array
  */
-void showPicture(int offset)
+void showPicture(int offset_x, int offset_y, int h, int w, const unsigned int *image)
 {   
 	int pixel = 0;
-	for (int y = offset; y < pic_height; y++)
+	for (int y = offset_y; y < h; y++)
 	{
-		for (int x = 0; x < pic_width; x++)
+		for (int x = offset_x; x < w + offset_x; x++)
 		{
-			drawPixel(x,y,myBitmappic[pixel]);
+			drawPixel(x,y,image[pixel]);
 			pixel++;
 		}
 	}   
+}
+
+/**
+ * Show a video
+ *  @param offset_x: top left x coordinate
+ * @param offset_y: top left y coordinate
+ * @param h: video height
+ * @param w: video w
+ * @param vid: video array
+*/
+void showVideo(int offset_x, int offset_y, int h, int w, const unsigned int **vid)
+{
+    for (int frame = 0; frame < vidArray_LEN; frame++)
+    {
+        int pixel = 0;
+        for (int y = offset_y; y < h + offset_y; y++)
+        {
+            for (int x = offset_x; x < w + offset_x; x++)
+            {
+                drawPixel(x,y,vid[frame][pixel]);
+                pixel++;
+            }
+	    } 
+        wait_msec(33000); // 30 fps  
+    }
+    
 }
 
 /**

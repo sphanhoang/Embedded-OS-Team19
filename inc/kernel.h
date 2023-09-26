@@ -3,6 +3,7 @@
 #include "framebf.h"
 #include "uart1.h"
 #include "pong2.h"
+#include "image.h"
 
 
 #define MAX_CMD_SIZE 100
@@ -20,4 +21,5 @@ void showinfo();
 void draw();
 void write();
 void picture();
+void video();
 void *memcpy(void *dest, const void *src, size_t n);

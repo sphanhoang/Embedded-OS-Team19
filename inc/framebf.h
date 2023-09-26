@@ -4,6 +4,7 @@
 
 #include "mbox.h"
 #include "printf.h"
+#include "delay.h"
 
 // ARGB in byte order (ABGR in memory order)
 #define BLACK   0x00000000 
@@ -38,7 +39,8 @@ void drawRect(int x1, int y1, int x2, int y2, unsigned int attr, int fill);
 void drawCircle(int x0, int y0, int radius, unsigned int attr, int fill);
 void drawChar(unsigned char ch, int x, int y, unsigned int attr, int scale);
 void drawString(int x, int y, char *s, unsigned int attr, int scale);
-void showPicture(int offset);
+void showPicture(int offset_x, int offset_y, int h, int w, const unsigned int *image);
+void showVideo(int offset_x, int offset_y, int h, int w, const unsigned int **vid);
 void clearScreen();
 
 #endif
