@@ -552,7 +552,7 @@ void showPicture(int offset_x, int offset_y, int h, int w, const unsigned int *i
 
 /**
  * Show a video
- *  @param offset_x: top left x coordinate
+ * @param offset_x: top left x coordinate
  * @param offset_y: top left y coordinate
  * @param h: video height
  * @param w: video w
@@ -571,9 +571,8 @@ void showVideo(int offset_x, int offset_y, int h, int w, const unsigned int **vi
                 pixel++;
             }
 	    } 
-        wait_msec(33000); // 30 fps  
+        wait_msec(41600); // 24 fps  
     }
-    
 }
 
 /**

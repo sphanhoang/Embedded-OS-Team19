@@ -57,7 +57,7 @@ void main()
 	framebf_init();
 	printf("SaltOS>");
 
-	showPicture(width/2 - GABEN_W/2, 0, GABEN_H, GABEN_W, gaben);
+	
 
     // run CLI
     while(1) 
@@ -524,26 +524,59 @@ void write()
 */
 void picture()
 {
+	int pic = 1;
 	int offset_y = 0;
-	printf("SaltOS> Press 'w' or 's' to scroll the image up and down. Press 'c' to exit.\n");
+	printf("SaltOS> Press 'w' or 's' to scroll the image up and down.\n ");
+	printf("	Press 'a' and 'd' to scroll between images\n");
+	printf("	Press 'c' to exit.\n");
 	clearScreen();
 	showPicture(width/2 - PIC_W/2, offset_y, PIC_H, PIC_W, myBitmappic);
-	while (uart_getc() != 'c')
+	while (getUart() != 'c')
 	{
-		// char input = getUart();
-		if (uart_getc() == 'w')
+		switch (pic)
 		{
-			offset_y -= 10;
-			// clearScreen();
+		case 1:
 			showPicture(width/2 - PIC_W/2, offset_y, PIC_H, PIC_W, myBitmappic);
+			if (uart_getc() == 'w')
+			{
+				offset_y -= 10;
+				showPicture(width/2 - PIC_W/2, offset_y, PIC_H, PIC_W, myBitmappic);
+				break;
+			}
+			else if (uart_getc() == 's')
+			{
+				offset_y += 10;
+				showPicture(width/2 - PIC_W/2, offset_y, PIC_H, PIC_W, myBitmappic);
+				drawRect(width/2 - PIC_W/2, offset_y-10, width/2 + PIC_W/2, offset_y-1, BLACK, 1);
+				break;
+			}
+			else if ((uart_getc() == 'd') || (uart_getc() == 'a'))
+			{
+				clearScreen();
+				pic = 2;
+				break;
+			}
+			else
+			{
+				break;
+			}
+		case 2:
+			showPicture(width/2 - GABEN_W/2, 0, GABEN_H, GABEN_W, gaben);
+			if ((uart_getc() == 'd') || (uart_getc() == 'a'))
+			{
+				clearScreen();
+				pic = 1;
+				break;
+			}
+			else
+			{
+				break;
+			}
+		default:
+			pic = 1;
+			break;
 		}
-		else if (uart_getc() == 's')
-		{
-			offset_y += 10;
-			// clearScreen();
-			showPicture(width/2 - PIC_W/2, offset_y, PIC_H, PIC_W, myBitmappic);
-			drawRect(width/2 - PIC_W/2, offset_y-10, width/2 + PIC_W/2, offset_y-1, BLACK, 1);
-		}
+		
 	}
 }
 
@@ -553,6 +586,8 @@ void picture()
 void video()
 {	
 	clearScreen();
+	drawString(380,600, "Sorry for language", WHITE, 2);
+	drawString(230,630, "Mirosoft Word almost ruined our capstone final report, hence the gif :)", WHITE, 1);
 	while (getUart() != 'c')
 	{
 		showVideo(width/2 - VID_W/2, height/2 - VID_H/2, VID_H, VID_W, vidArray);
