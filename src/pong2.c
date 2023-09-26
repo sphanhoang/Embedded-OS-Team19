@@ -28,11 +28,6 @@ void UpdateBall(Ball *ball)
     {          //vertical collision
         ball->speed_y *= -1;
     }
-
-    if ((ball->x + ball->radius >= width) || (ball->x - ball->radius <= 0)) 
-    {          //horizontal collision
-        ball->speed_x *= -1;
-    }
 }
 
 /**
@@ -96,39 +91,79 @@ void UpdateCpuPaddle(Paddle *cpu, int ball_y)
     }
 }
 
+void gameini(Ball *ball, Paddle *cpu, Paddle *player)
+{
+    //ball.radius = 20;
+    ball->x = width / 2;
+    ball->y = height / 2;
+    ball->radius = 10;
+    ball->speed_x = 10;
+    ball->speed_y = 10;                   //checkpoint 1, Ball done
+
+    //player.width = 20;
+    //player.height = 180;
+    player->x1 = width- 25;
+    player->y1 = height / 2 - 180 / 2;
+    player->x2 = width- 5;
+    player->y2 = height / 2 + 180 / 2;
+    player->speed = 20;                   // player Paddle done
+
+    //cpu.paddle.width = 20;
+    //cpu.paddle.height = 180;
+    cpu->x1 = 5;
+    cpu->y1 = height/ 2 - 180 / 2;
+    cpu->x2 = 5 + 20;
+    cpu->y2 = height/ 2 + 180 / 2;
+    cpu->speed = 20;  
+}
+
+/**
+ * Check for collision 
+*/
+// void collision(Ball *ball, Paddle *cpu, Paddle *player)
+// {
+//     int rectWidth = rect->x2 - rect->x1;
+//     int rectHeight = rect->y2 - rect->y1;
+
+//     int rectX = (rect->x1 + rect->x2)/2;
+//     int rectY = (rect->y1 + rect->y2)/2;
+
+//     int ballDistanceX = (ball->x - rectX);
+//     int ballDistanceY = (ball->y - rectY);
+
+//     if (ballDistanceX <= (rectWidth/2))     // check for right/left edge collision
+//     { 
+//         ball->speed_x *= -1; 
+//     } 
+//     if (ballDistanceY <= (rectHeight/2))    // check for top/bottom edge collision 
+//     { 
+//         ball->speed_y *= -1;
+//     }
+//     int cornerDistance_sq = (ballDistanceX - rectWidth/2)^2 +
+//                          (ballDistanceY - rectHeight/2)^2;
+
+//     if (cornerDistance_sq <= (ball->radius^2))   // check for corner collision
+//     {
+//         ball->speed_x *= -1;
+//         ball->speed_y *= -1;
+//     }
+// }
+
 /**
  * Game main program
 */
 void game() 
 {
     clearScreen();
-    userInput = 0;
     Ball ball;
-    //ball.radius = 20;
-    ball.x = width / 2;
-    ball.y = height / 2;
-    ball.radius = 10;
-    ball.speed_x = 10;
-    ball.speed_y = 10;                   //checkpoint 1, Ball done
-
     Paddle player;
-    //player.width = 20;
-    //player.height = 180;
-    player.x1 = width- 25;
-    player.y1 = height/ 2 - 180 / 2;
-    player.x2 = width- 5;
-    player.y2 = height/ 2 + 180 / 2;
-    player.speed = 20;                   // player Paddle done
-
     Paddle cpu;
-    //cpu.paddle.width = 20;
-    //cpu.paddle.height = 180;
-    cpu.x1 = 5;
-    cpu.y1 = height/ 2 - 180 / 2;
-    cpu.x2 = 5 + 20;
-    cpu.y2 = height/ 2 + 180 / 2;
-    cpu.speed = 20;                      // cpu Paddle done
 
+    userInput = 0;
+    int playerScore = 0;
+    int cpuScore = 0;
+
+    gameini(&ball, &cpu, &player);
     state gameState = menu;
     while (userInput != 'c') 
     {
@@ -153,33 +188,64 @@ void game()
                 }
                 break;
             case play:
-                //BeginDrawing();
-                // Update
                 drawLine(width/2, 0, width/2, height, WHITE);
+                /* update */
                 UpdateBall(&ball);
                 UpdatePaddle(&player);
                 UpdateCpuPaddle(&cpu, ball.y);
-
-                // Check for collisions
-                //if (CheckCollisionCircleRec((Vector2){ball.x, ball.y}, ball.radius, (Rectangle){player.x, player.y, player.width, player.height})) {
-                if((ball.x - ball.radius <= cpu.x2) && (ball.y - ball.radius >= cpu.y1) && (ball.y + ball.radius < cpu.y2)) 
+            
+                /* Check for paddle collisions */
+                if ((ball.x - ball.radius <= cpu.x2) && (ball.y - ball.radius >= cpu.y1) && (ball.y + ball.radius <= cpu.y2))
                 {
-                    ball.speed_x *= -1;
+                   
+                    ball.x *= -1;
+            
                 }
-
-                //if (CheckCollisionCircleRec((Vector2){ball.x, ball.y}, ball.radius, (Rectangle){cpu.paddle.x, cpu.paddle.y, cpu.paddle.width, cpu.paddle.height})) {
-                if((ball.x + ball.radius >= player.x1) && (ball.y - ball.radius >= player.y1) && (ball.y + ball.radius < player.y2))
+                if ((ball.x + ball.radius >= player.x1) && (ball.y - ball.radius >= player.y1) && (ball.y + ball.radius <= player.y2))
                 {
-                    ball.speed_x *= -1;
+                 
+                    ball.x *= -1;
+                 
                 }
-                // Draw
-                //ClearBackground(BLACK);
-                //DrawLine(screen_width / 2, 0, screen_width / 2, screen_height, WHITE);
+                if (ball.x + ball.radius >= width)
+                {
+                    cpuScore++;
+                    gameState = endgame;
+                }
+                else if  (ball.x - ball.radius <= 0)
+                {          //horizontal collision
+                    playerScore++;
+                    gameState = endgame;
+                }       
                 DrawBall(ball);
                 DrawPaddle(player);
                 DrawPaddle(cpu);
 
                 wait_msec(33000);   // 33ms = 30fps
+                break;
+            case endgame:
+                if (playerScore == 1)   
+                {
+                    drawString(400, 100, "YOU WON!", WHITE, 4);
+                    playerScore = 0;
+                    cpuScore = 0; 
+                }
+                else if (cpuScore == 1)
+                {
+                    drawString(400, 100, "YOU LOSE!", WHITE, 4);
+                    playerScore = 0;
+                    cpuScore = 0;
+                }
+                drawString(280, 250, "Press Spacebar to play again!", YELLOW, 2);
+                wait_msec(250000);  // 250ms
+                drawString(280, 250, "Press Spacebar to play again!", BLACK, 2);
+                wait_msec(250000);  // 250ms
+                if (userInput == ' ')
+                {
+                    gameState = play;
+                    gameini(&ball, &cpu, &player);
+                    clearScreen();
+                }
                 break;
             default:
                 gameState = menu;

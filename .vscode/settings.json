@@ -14,7 +14,8 @@
         "ostream": "c",
         "random": "c",
         "uart1.h": "c",
-        "pong2.h": "c"
+        "pong2.h": "c",
+        "complex": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

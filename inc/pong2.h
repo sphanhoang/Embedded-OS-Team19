@@ -19,7 +19,8 @@ typedef struct {
 
 typedef enum{
     menu,
-    play
+    play,
+    endgame
 }state;
 
 void DrawBall (Ball ball);
@@ -27,6 +28,8 @@ void UpdateBall(Ball *ball);
 void DrawPaddle(Paddle paddle);
 void UpdatePaddle(Paddle *paddle);
 void UpdateCpuPaddle(Paddle *cpu, int ball_y);
+// void collision(Ball *ball, Paddle *rect);
+void gameini(Ball *ball, Paddle *cpu, Paddle *player);
 void game();
 
 #endif
