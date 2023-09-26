@@ -511,7 +511,8 @@ void drawChar(unsigned char ch, int x, int y, unsigned int attr, int scale)
 */
 void drawString(int x, int y, char *s, unsigned int attr, int scale)
 {
-    while (*s) {
+    while (*s) 
+    {
        if (*s == '\r') 
        {
           x = 0;

@@ -56,8 +56,9 @@ void main()
 	printf("SaltOS>");
 	framebf_init();
 	printf("SaltOS>");
-
-	
+	drawString(400, 100, "EEET2490", YELLOW, 3);
+	drawString(350, 150, "Bare Metal OS", YELLOW, 3);
+	drawString(430, 200, "Team 19", YELLOW, 2);
 
     // run CLI
     while(1) 
@@ -525,56 +526,58 @@ void write()
 void picture()
 {
 	int pic = 1;
+	char input = 0;
 	int offset_y = 0;
 	printf("SaltOS> Press 'w' or 's' to scroll the image up and down.\n ");
 	printf("	Press 'a' and 'd' to scroll between images\n");
 	printf("	Press 'c' to exit.\n");
 	clearScreen();
 	showPicture(width/2 - PIC_W/2, offset_y, PIC_H, PIC_W, myBitmappic);
-	while (getUart() != 'c')
-	{
+	while (input!= 'c')
+	{	
+		input = getUart();
 		switch (pic)
 		{
-		case 1:
-			showPicture(width/2 - PIC_W/2, offset_y, PIC_H, PIC_W, myBitmappic);
-			if (uart_getc() == 'w')
-			{
-				offset_y -= 10;
+			case 1:
 				showPicture(width/2 - PIC_W/2, offset_y, PIC_H, PIC_W, myBitmappic);
-				break;
-			}
-			else if (uart_getc() == 's')
-			{
-				offset_y += 10;
-				showPicture(width/2 - PIC_W/2, offset_y, PIC_H, PIC_W, myBitmappic);
-				drawRect(width/2 - PIC_W/2, offset_y-10, width/2 + PIC_W/2, offset_y-1, BLACK, 1);
-				break;
-			}
-			else if ((uart_getc() == 'd') || (uart_getc() == 'a'))
-			{
-				clearScreen();
-				pic = 2;
-				break;
-			}
-			else
-			{
-				break;
-			}
-		case 2:
-			showPicture(width/2 - GABEN_W/2, 0, GABEN_H, GABEN_W, gaben);
-			if ((uart_getc() == 'd') || (uart_getc() == 'a'))
-			{
-				clearScreen();
+				if (input == 'w')
+				{
+					offset_y -= 10;
+					showPicture(width/2 - PIC_W/2, offset_y, PIC_H, PIC_W, myBitmappic);
+					break;
+				}
+				else if (input == 's')
+				{
+					offset_y += 10;
+					showPicture(width/2 - PIC_W/2, offset_y, PIC_H, PIC_W, myBitmappic);
+					drawRect(width/2 - PIC_W/2, offset_y-10, width/2 + PIC_W/2, offset_y-1, BLACK, 1);
+					break;
+				}
+				else if ((input == 'd') || (input == 'a'))
+				{
+					clearScreen();
+					pic = 2;
+					break;
+				}
+				else
+				{
+					break;
+				}
+			case 2:
+				showPicture(width/2 - GABEN_W/2, 0, GABEN_H, GABEN_W, gaben);
+				if ((input == 'd') || (input == 'a'))
+				{
+					clearScreen();
+					pic = 1;
+					break;
+				}
+				else
+				{
+					break;
+				}
+			default:
 				pic = 1;
 				break;
-			}
-			else
-			{
-				break;
-			}
-		default:
-			pic = 1;
-			break;
 		}
 		
 	}
