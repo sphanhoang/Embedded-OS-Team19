@@ -541,7 +541,8 @@ void showPicture(int offset)
 		for (int x = 0; x < pic_width; x++)
 		{
 			drawPixel(x,y,myBitmappic[pixel]);
-			pixel++;
+			// picture++;
+            pixel++;
 		}
 	}   
 }
