@@ -16,9 +16,9 @@ void DrawBall(Ball ball)
 
 /**
  * Update current position of the ball
- * 
+ * @param ball: a pointer point to ball variable
 */
-void UpdateBall(Ball *ball, Paddle *paddle) 
+void UpdateBall(Ball *ball) 
 {           //GetScreenHeight->actual boundary value
     drawCircle(ball->x, ball->y, ball->radius, BLACK, 1);
     ball->x += ball->speed_x;
@@ -28,52 +28,6 @@ void UpdateBall(Ball *ball, Paddle *paddle)
     {          //vertical collision
         ball->speed_y *= -1;
     }
-    for (int i = 0; i < 2; i++)
-    {
-        if (collision(ball, paddle[i])) 
-        {
-            if (ball->speed_x < 0)  // ball is moving left
-            {
-                ball->speed_x -= 1; 
-            }
-            else                    // ball is moving right
-            {
-                ball->speed_x += 1;
-            }
-            ball->speed_x *= -1;
-
-            // change vertical velocity
-            int hit_pos = (paddle[i].y2 - ball->y);
-
-            // the paddle length is 180, divided it into 5 region
-            if (hit_pos >= 0 && hit_pos < 36)
-            {
-                ball->speed_y = 10;
-            }
-
-            if (hit_pos >= 36 && hit_pos < 72)
-            {
-                ball->speed_y = 5;
-            }
-            
-            if (hit_pos >= 72 && hit_pos < 108)
-            {
-                ball->speed_y = 0;
-            }
-            
-            if (hit_pos >= 108 && hit_pos < 144)
-            {
-                ball->speed_y = -5;
-            }
-            
-            if (hit_pos >= 144 && hit_pos < 180)
-            {
-                ball->speed_y = -10;
-            }
-        }   
-    }
-    
-    
 }
 
 /**
@@ -92,21 +46,21 @@ void UpdatePaddle(Paddle *paddle)
 {
     if (userInput == 'w') 
     {            //if (IsKeyDown(KEY_UP))
-        if (paddle[0].y1 >= 0)    // limit paddle movement to screen boundary
+        if (paddle->y1 >= 0)    // limit paddle movement to screen boundary
         {
-            drawRect(paddle[0].x1, paddle[0].y1, paddle[0].x2, paddle[0].y2, BLACK, 1);
-            paddle[0].y1 -= paddle[0].speed;
-            paddle[0].y2 -= paddle[0].speed;
+            drawRect(paddle->x1, paddle->y1, paddle->x2, paddle->y2, BLACK, 1);
+            paddle->y1 -= paddle->speed;
+            paddle->y2 -= paddle->speed;
         }
     }
 
     if (userInput == 's') 
     {          //if (IsKeyDown(KEY_DOWN))
-        if (paddle[0].y2 <= height)  // limit paddle movement to screen boundary
+        if (paddle->y2 <= height)  // limit paddle movement to screen boundary
         {
-            drawRect(paddle[0].x1, paddle[0].y1, paddle[0].x2, paddle[0].y2, BLACK, 1);
-            paddle[0].y1 += paddle[0].speed;
-            paddle[0].y2 += paddle[0].speed;
+            drawRect(paddle->x1, paddle->y1, paddle->x2, paddle->y2, BLACK, 1);
+            paddle->y1 += paddle->speed;
+            paddle->y2 += paddle->speed;
         }
     }
 }
@@ -114,66 +68,30 @@ void UpdatePaddle(Paddle *paddle)
 /**
  * Update CPU paddle position
 */
-void UpdateCpuPaddle(Paddle *paddle, int ball_y) 
+void UpdateCpuPaddle(Paddle *cpu, int ball_y) 
 {
     //CpuPaddle paddle = &(cpu->paddle);
-    if (paddle[1].y1 > ball_y) 
+    if (cpu->y1 > ball_y) 
     {
-        if (paddle[1].y1 >= 0)   // limit paddle movement to screen boundary
+        if (cpu->y1 >= 0)   // limit paddle movement to screen boundary
         {
-            drawRect(paddle[1].x1, paddle[1].y1, paddle[1].x2, paddle[1].y2, BLACK, 1);
-            paddle[1].y1 -= paddle[1].speed;
-            paddle[1].y2 -= paddle[1].speed;
+            drawRect(cpu->x1, cpu->y1, cpu->x2, cpu->y2, BLACK, 1);
+            cpu->y1 -= cpu->speed;
+            cpu->y2 -= cpu->speed;
         }
     }
-    if (paddle[1].y2 < ball_y) 
+    if (cpu->y2 < ball_y) 
     {
-        if (paddle[1].y2 <= height) // limit paddle movement to screen boundary
+        if (cpu->y2 <= height) // limit paddle movement to screen boundary
         {
-            drawRect(paddle[1].x1, paddle[1].y1, paddle[1].x2, paddle[1].y2, BLACK, 1);
-            paddle[1].y1 += paddle[1].speed;
-            paddle[1].y2 += paddle[1].speed;
+            drawRect(cpu->x1, cpu->y1, cpu->x2, cpu->y2, BLACK, 1);
+            cpu->y1 += cpu->speed;
+            cpu->y2 += cpu->speed;
         }
     }
 }
 
-
-/**
- * Check for collision 
-*/
-int collision(Ball *ball, Paddle rect)
-{
-    int ball_left = ball->x - ball->radius;
-    int ball_right = ball->x + ball->radius;
-    int ball_top = ball->y - ball->radius;
-    int ball_bottom = ball->y + ball->radius;
-
-    if (ball_left > rect.x2)
-    {
-        return 0;
-    }
-
-    if (ball_right < rect.x1)
-    {
-        return 0;
-    }
-
-    if (ball_top > rect.y2)
-    {
-        return 0;
-    }
-
-    if (ball_bottom < rect.y1)
-    {
-        return 0;
-    }
-    return 1;
-}
-
-/**
- * Initialize the game with default parameters
-*/
-void gameini(Ball *ball, Paddle *paddle)
+void gameini(Ball *ball, Paddle *cpu, Paddle *player)
 {
     //ball.radius = 20;
     ball->x = width / 2;
@@ -184,21 +102,52 @@ void gameini(Ball *ball, Paddle *paddle)
 
     //player.width = 20;
     //player.height = 180;
-    paddle[0].x1 = width- 25;
-    paddle[0].y1 = height / 2 - 180 / 2;
-    paddle[0].x2 = width- 5;
-    paddle[0].y2 = height / 2 + 180 / 2;
-    paddle[0].speed = 20;                   // player Paddle done
+    player->x1 = width- 25;
+    player->y1 = height / 2 - 180 / 2;
+    player->x2 = width- 5;
+    player->y2 = height / 2 + 180 / 2;
+    player->speed = 20;                   // player Paddle done
 
     //cpu.paddle.width = 20;
     //cpu.paddle.height = 180;
-    paddle[1].x1 = 5;
-    paddle[1].y1 = height/ 2 - 180 / 2;
-    paddle[1].x2 = 5 + 20;
-    paddle[1].y2 = height/ 2 + 180 / 2;
-    paddle[1].speed = 20;  
+    cpu->x1 = 5;
+    cpu->y1 = height/ 2 - 180 / 2;
+    cpu->x2 = 5 + 20;
+    cpu->y2 = height/ 2 + 180 / 2;
+    cpu->speed = 20;  
 }
 
+/**
+ * Check for collision 
+*/
+// void collision(Ball *ball, Paddle *cpu, Paddle *player)
+// {
+//     int rectWidth = rect->x2 - rect->x1;
+//     int rectHeight = rect->y2 - rect->y1;
+
+//     int rectX = (rect->x1 + rect->x2)/2;
+//     int rectY = (rect->y1 + rect->y2)/2;
+
+//     int ballDistanceX = (ball->x - rectX);
+//     int ballDistanceY = (ball->y - rectY);
+
+//     if (ballDistanceX <= (rectWidth/2))     // check for right/left edge collision
+//     { 
+//         ball->speed_x *= -1; 
+//     } 
+//     if (ballDistanceY <= (rectHeight/2))    // check for top/bottom edge collision 
+//     { 
+//         ball->speed_y *= -1;
+//     }
+//     int cornerDistance_sq = (ballDistanceX - rectWidth/2)^2 +
+//                          (ballDistanceY - rectHeight/2)^2;
+
+//     if (cornerDistance_sq <= (ball->radius^2))   // check for corner collision
+//     {
+//         ball->speed_x *= -1;
+//         ball->speed_y *= -1;
+//     }
+// }
 
 /**
  * Game main program
@@ -207,15 +156,14 @@ void game()
 {
     clearScreen();
     Ball ball;
-    // Paddle player;
-    // Paddle cpu;
-    Paddle player[2]; // 0 = player, 1 = cpu
+    Paddle player;
+    Paddle cpu;
 
     userInput = 0;
     int playerScore = 0;
     int cpuScore = 0;
 
-    gameini(&ball, player);
+    gameini(&ball, &cpu, &player);
     state gameState = menu;
     while (userInput != 'c') 
     {
@@ -226,8 +174,8 @@ void game()
                 drawString(280, 100, "Welcome to Pong", WHITE, 4);
                 drawString(260, 300, "Press W and S to move up and down", YELLOW, 2);
                 DrawBall(ball);
-                DrawPaddle(player[0]);
-                DrawPaddle(player[1]);
+                DrawPaddle(player);
+                DrawPaddle(cpu);
                 drawString(330, 250, "Press Spacebar to begin", YELLOW, 2);
                 wait_msec(250000);  // 250ms
                 drawString(330, 250, "Press Spacebar to begin", BLACK, 2);
@@ -242,11 +190,23 @@ void game()
             case play:
                 drawLine(width/2, 0, width/2, height, WHITE);
                 /* update */
-                UpdateBall(&ball, player);
-                UpdatePaddle(player);
-                UpdateCpuPaddle(player, ball.y);
+                UpdateBall(&ball);
+                UpdatePaddle(&player);
+                UpdateCpuPaddle(&cpu, ball.y);
             
-                /* Check for edge collisions */
+                /* Check for paddle collisions */
+                if ((ball.x - ball.radius <= cpu.x2) && (ball.y - ball.radius >= cpu.y1) && (ball.y + ball.radius <= cpu.y2))
+                {
+                   
+                    ball.x *= -1;
+            
+                }
+                if ((ball.x + ball.radius >= player.x1) && (ball.y - ball.radius >= player.y1) && (ball.y + ball.radius <= player.y2))
+                {
+                 
+                    ball.x *= -1;
+                 
+                }
                 if (ball.x + ball.radius >= width)
                 {
                     cpuScore++;
@@ -258,8 +218,8 @@ void game()
                     gameState = endgame;
                 }       
                 DrawBall(ball);
-                DrawPaddle(player[0]);
-                DrawPaddle(player[1]);
+                DrawPaddle(player);
+                DrawPaddle(cpu);
 
                 wait_msec(33000);   // 33ms = 30fps
                 break;
@@ -283,7 +243,7 @@ void game()
                 if (userInput == ' ')
                 {
                     gameState = play;
-                    gameini(&ball, player);
+                    gameini(&ball, &cpu, &player);
                     clearScreen();
                 }
                 break;
