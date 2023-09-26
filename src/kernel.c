@@ -56,9 +56,9 @@ void main()
 	printf("SaltOS>");
 	framebf_init();
 	printf("SaltOS>");
-	drawString(400, 100, "EEET2490", YELLOW, 3);
-	drawString(350, 150, "Bare Metal OS", YELLOW, 3);
-	drawString(430, 200, "Team 19", YELLOW, 2);
+	drawString(1024/2 - (24*8)/2, 100, "EEET2490", YELLOW, 3);
+	drawString(1024/2 - (24*13)/2, 150, "Bare Metal OS", YELLOW, 3);
+	drawString(1024/2 - (16*7)/2, 200, "Team 19", YELLOW, 2);
 
     // run CLI
     while(1) 
