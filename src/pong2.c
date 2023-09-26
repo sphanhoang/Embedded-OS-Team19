@@ -241,6 +241,10 @@ void game()
                 }
                 break;
             case play:
+                drawString(width - 300, 40, "Player's Score: ", WHITE, 2);
+                drawChar(playerScore + 0x30, width - 40, 40, WHITE, 2);
+                drawString(0, 40, "CPU's Score: ", WHITE, 2);
+                drawChar(cpuScore + 0x30, 210, 40, WHITE, 2);
                 drawLine(width/2, 0, width/2, height, WHITE);
                 /* update */
                 UpdateBall(&ball, player);
