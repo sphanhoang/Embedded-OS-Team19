@@ -474,7 +474,6 @@ void drawCircle(int x0, int y0, int radius, unsigned int attr, int fill)
     }
 }
 
-
 /**
  * Draw characters with defined font.
  * @param ch: character

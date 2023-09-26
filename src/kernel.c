@@ -553,10 +553,16 @@ void picture()
 					drawRect(width/2 - PIC_W/2, offset_y-10, width/2 + PIC_W/2, offset_y-1, BLACK, 1);
 					break;
 				}
-				else if ((input == 'd') || (input == 'a'))
+				else if (input == 'd')
 				{
 					clearScreen();
 					pic = 2;
+					break;
+				}
+				else if (input == 'a')
+				{
+					clearScreen();
+					pic = 3;
 					break;
 				}
 				else
@@ -565,7 +571,13 @@ void picture()
 				}
 			case 2:
 				showPicture(width/2 - GABEN_W/2, 0, GABEN_H, GABEN_W, gaben);
-				if ((input == 'd') || (input == 'a'))
+				if (input == 'd') 
+				{
+					clearScreen();
+					pic = 3;
+					break;
+				}
+				if (input == 'a')
 				{
 					clearScreen();
 					pic = 1;
@@ -575,11 +587,29 @@ void picture()
 				{
 					break;
 				}
+			case 3:
+				showPicture(width/2 - PIC1_W/2, 0, PIC1_H, PIC1_W, myBitmappic1);
+				if (input == 'd') 
+				{
+					clearScreen();
+					pic = 1;
+					break;
+				}
+				if (input == 'a')
+				{
+					clearScreen();
+					pic = 2;
+					break;
+				}
+				else
+				{
+					break;
+				}
+
 			default:
 				pic = 1;
 				break;
 		}
-		
 	}
 }
 

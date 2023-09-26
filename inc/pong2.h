@@ -20,6 +20,7 @@ typedef struct {
 typedef enum{
     menu,
     play,
+    transition,
     endgame
 }state;
 

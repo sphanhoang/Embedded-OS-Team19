@@ -1,7 +1,5 @@
 #include "../inc/pong2.h"
 
-int player_score = 0;
-int cpu_score = 0;
 extern int width, height; // physical dimension
 char userInput;
 
@@ -34,21 +32,21 @@ void UpdateBall(Ball *ball, Paddle *paddle)
         {
             if (ball->speed_x < 0)  // ball is moving left
             {
-                ball->speed_x -= 1; 
+                ball->speed_x -= 1; // increase horizontal velocity to the left by 1
             }
             else                    // ball is moving right
             {
-                ball->speed_x += 1;
+                ball->speed_x += 1; // increase horizontal velocity to the right by 1
             }
-            ball->speed_x *= -1;
+            ball->speed_x *= -1;    // flip velocity vector
 
             // change vertical velocity
             int hit_pos = (paddle[i].y2 - ball->y);
 
-            // the paddle length is 180, divided it into 5 region
+            // the paddle length is 180, divide it into 5 sections
             if (hit_pos >= 0 && hit_pos < 36)
             {
-                ball->speed_y = 10;
+                ball->speed_y = 10; 
             }
 
             if (hit_pos >= 36 && hit_pos < 72)
@@ -72,8 +70,6 @@ void UpdateBall(Ball *ball, Paddle *paddle)
             }
         }   
     }
-    
-    
 }
 
 /**
@@ -180,7 +176,7 @@ void gameini(Ball *ball, Paddle *paddle)
     ball->y = height / 2;
     ball->radius = 10;
     ball->speed_x = 10;
-    ball->speed_y = 10;                   //checkpoint 1, Ball done
+    ball->speed_y = 0;                   //checkpoint 1, Ball done
 
     //player.width = 20;
     //player.height = 180;
@@ -198,7 +194,6 @@ void gameini(Ball *ball, Paddle *paddle)
     paddle[1].y2 = height/ 2 + 180 / 2;
     paddle[1].speed = 20;  
 }
-
 
 /**
  * Game main program
@@ -241,11 +236,14 @@ void game()
                 }
                 break;
             case play:
+                // Show score
                 drawString(width - 300, 40, "Player's Score: ", WHITE, 2);
                 drawChar(playerScore + 0x30, width - 40, 40, WHITE, 2);
                 drawString(0, 40, "CPU's Score: ", WHITE, 2);
                 drawChar(cpuScore + 0x30, 210, 40, WHITE, 2);
+
                 drawLine(width/2, 0, width/2, height, WHITE);
+
                 /* update */
                 UpdateBall(&ball, player);
                 UpdatePaddle(player);
@@ -255,12 +253,14 @@ void game()
                 if (ball.x + ball.radius >= width)
                 {
                     cpuScore++;
-                    gameState = endgame;
+                    gameState = transition;
+                    break;
                 }
                 else if  (ball.x - ball.radius <= 0)
                 {          //horizontal collision
                     playerScore++;
-                    gameState = endgame;
+                    gameState = transition;
+                    break;
                 }       
 
                 DrawBall(ball);
@@ -269,27 +269,55 @@ void game()
 
                 wait_msec(33000);   // 33ms = 30fps
                 break;
-            case endgame:
-                if (playerScore == 1)   
+            case transition:
+                // Show score
+                drawString(width - 300, 40, "Player's Score: ", WHITE, 2);
+                drawChar(playerScore + 0x30, width - 40, 40, WHITE, 2);
+                drawString(0, 40, "CPU's Score: ", WHITE, 2);
+                drawChar(cpuScore + 0x30, 210, 40, WHITE, 2);
+
+                if ((cpuScore == 3) || (playerScore == 3))
                 {
-                    drawString(400, 100, "YOU WON!", WHITE, 4);
-                    playerScore = 0;
-                    cpuScore = 0; 
+                    gameState = endgame;
+                    break;
+                } 
+                else if ((cpuScore != 3) && (playerScore != 3))
+                {   
+                    drawString(280, 250, "Press Spacebar to keep playing!", YELLOW, 2);
+                    if (userInput == ' ')
+                    {
+                        gameini(&ball, player);
+                        clearScreen();
+                        gameState = play;
+                        break;
+                    }
                 }
-                else if (cpuScore == 1)
+                break;
+            case endgame:
+                // Show score
+                drawString(width - 300, 40, "Player's Score: ", WHITE, 2);
+                drawChar(playerScore + 0x30, width - 40, 40, WHITE, 2);
+                drawString(0, 40, "CPU's Score: ", WHITE, 2);
+                drawChar(cpuScore + 0x30, 210, 40, WHITE, 2);
+
+                if (playerScore == 3)   
+                {
+                    drawString(400, 100, "YOU WON!", WHITE, 4);   
+                }
+                else if (cpuScore == 3)
                 {
                     drawString(400, 100, "YOU LOSE!", WHITE, 4);
-                    playerScore = 0;
-                    cpuScore = 0;
                 }
-                drawString(280, 250, "Press Spacebar to play again!", YELLOW, 2);
+                drawString(width/2-(16*30)/2, 250, "Press Space to go back to menu", YELLOW, 2);
                 wait_msec(250000);  // 250ms
-                drawString(280, 250, "Press Spacebar to play again!", BLACK, 2);
+                drawString(width/2-(16*30)/2, 250, "Press Space to go back to menu", BLACK, 2);
                 wait_msec(250000);  // 250ms
                 if (userInput == ' ')
                 {
-                    gameState = play;
+                    gameState = menu;
                     gameini(&ball, player);
+                    playerScore = 0;
+                    cpuScore = 0; 
                     clearScreen();
                 }
                 break;
