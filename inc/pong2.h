@@ -24,12 +24,12 @@ typedef enum{
 }state;
 
 void DrawBall (Ball ball);
-void UpdateBall(Ball *ball);
+void UpdateBall(Ball *ball, Paddle *paddle);
 void DrawPaddle(Paddle paddle);
 void UpdatePaddle(Paddle *paddle);
 void UpdateCpuPaddle(Paddle *cpu, int ball_y);
-// void collision(Ball *ball, Paddle *rect);
-void gameini(Ball *ball, Paddle *cpu, Paddle *player);
+int collision(Ball *ball, Paddle rect);
+void gameini(Ball *ball, Paddle *paddle);
 void game();
 
 #endif
